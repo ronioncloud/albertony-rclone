@@ -109,10 +109,14 @@ the `--jottacloud-md5-memory-limit` flag.
 ### Deleting files ###
 
 By default rclone will send all files to the trash when deleting files.
-Due to a lack of API documentation emptying the trash is currently
-only possible via the Jottacloud website. If deleting permanently
-is required then use the `--jottacloud-hard-delete` flag,
+To delete permanently use the `--jottacloud-hard-delete` option,
 or set the equivalent environment variable.
+
+The option `--jottacloud-trashed-files` can be set to list trashed files
+in their original location.
+
+Due to a lack of API documentation emptying the trash is currently
+only possible via the Jottacloud website.
 
 ### Versions ###
 
@@ -148,6 +152,42 @@ required. (default 10M)
 Controls whether files are sent to the trash or deleted
 permanently. Defaults to false, namely sending files to the trash.
 Use `--jottacloud-hard-delete=true` to delete files permanently instead.
+
+#### --jottacloud-trashed-files ####
+
+Advanced option to only show files that are in the trash. This will show
+the trashed files in their original directory structure. Listed
+directories may contain files that are not trashed, and therefore not listed.
+
+When deleting trashed files listed with this option, they will be deleted
+permanently, regardless of the `--jottacloud-use-trash` option.
+
+When deleting any of the listed directories, they will be moved to
+trash or deleted permanently according to the `--jottacloud-use-trash`
+option.
+
+Not that this option is not supported and will be ignored when used in
+combination with the `--fast-list` option.
+
+#### --jottacloud-incomplete-files ####
+
+Advanced option to only show files that are incomplete. Listed
+directories may contain files that are not incomplete, and therefore not listed.
+
+Incomplete files may be in trash, use in combination with option `--jottacloud-trashed-files`
+to list only such files.
+
+If used in combination with `--jottacloud-corrupt-files` then both incomplete and corrupt files will be shown.
+
+#### --jottacloud-corrupt-files ####
+
+Advanced option to only show files that are corrupt. Listed
+directories may contain files that are not incomplete, and therefore not listed.
+
+Corrupt files may be in trash, use in combination with option `--jottacloud-trashed-files`
+to list only such files.
+
+If used in combination with `--jottacloud-incomplete-files` then both corrupt and incomplete files will be shown.
 
 ### Troubleshooting ###
 

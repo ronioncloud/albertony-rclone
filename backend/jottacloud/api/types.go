@@ -233,16 +233,58 @@ GET http://www.jottacloud.com/JFS/<account>/<device>/<mountpoint>/.../<file>
 
 // JottaFile represents a Jottacloud file
 type JottaFile struct {
-	XMLName    xml.Name
-	Name       string `xml:"name,attr"`
-	Deleted    Flag   `xml:"deleted,attr"`
-	State      string `xml:"currentRevision>state"`
-	CreatedAt  Time   `xml:"currentRevision>created"`
-	ModifiedAt Time   `xml:"currentRevision>modified"`
-	Updated    Time   `xml:"currentRevision>updated"`
-	Size       int64  `xml:"currentRevision>size"`
-	MimeType   string `xml:"currentRevision>mime"`
-	MD5        string `xml:"currentRevision>md5"`
+	XMLName      xml.Name
+	Name         string `xml:"name,attr"`
+	Deleted      Flag   `xml:"deleted,attr"`
+	StateCurrent string `xml:"currentRevision>state"`
+	CreatedAt    Time   `xml:"currentRevision>created"`
+	ModifiedAt   Time   `xml:"currentRevision>modified"`
+	Updated      Time   `xml:"currentRevision>updated"`
+	Size         int64  `xml:"currentRevision>size"`
+	MimeType     string `xml:"currentRevision>mime"`
+	MD5          string `xml:"currentRevision>md5"`
+	StateLatest  string `xml:"latestRevision>state"`
+}
+
+// JottaFileState represents state of a Jottacloud file
+type JottaFileState int
+
+// Definition of possible file states
+const (
+	JottaFileStateUnknown    JottaFileState = 0
+	JottaFileStateComplete   JottaFileState = 1
+	JottaFileStateIncomplete JottaFileState = 2
+	JottaFileStateCorrupt    JottaFileState = 3
+)
+
+// State interprets the JottaFile information and returns the state as a JottaFileState value.
+func (file *JottaFile) State() (JottaFileState, string) {
+	// The logic around file states in Jottacloud API is not 100% clear,
+	// but it seems the following is a working approach:
+	// If the file has a "currentRevision" it is a normal file, and we can check
+	// the State value but it should always be "COMPLETED".
+	// If the file does not have a "currentRevision" but has "latestRevision"
+	// (which should then always be true), the file is not completed, and
+	// we can check the State2 value to see if it is either "INCOMPLETE"
+	// or "CORRUPT".
+	// Note that if files are deleted or not, is not handled as part of the state.
+	stateValue := JottaFileStateUnknown
+	stateString := file.StateCurrent
+	if stateString != "" {
+		if stateString == "COMPLETED" {
+			stateValue = JottaFileStateComplete
+		}
+	} else {
+		stateString := file.StateLatest
+		if stateString != "" {
+			if stateString == "CORRUPT" {
+				stateValue = JottaFileStateCorrupt
+			} else if stateString == "INCOMPLETE" {
+				stateValue = JottaFileStateIncomplete
+			}
+		}
+	}
+	return stateValue, stateString
 }
 
 // Error is a custom Error for wrapping Jottacloud error responses

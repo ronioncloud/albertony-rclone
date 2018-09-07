@@ -77,6 +77,21 @@ func init() {
 			Help:     "Delete files permanently rather than putting them into the trash.",
 			Default:  false,
 			Advanced: true,
+		}, {
+			Name:     "trashed_files",
+			Default:  false,
+			Help:     "Only show files that are in the trash, and folders that contain such files.",
+			Advanced: true,
+		}, {
+			Name:     "incomplete_files",
+			Default:  false,
+			Help:     "Only show files that are incomplete, and folders that contain such files.",
+			Advanced: true,
+		}, {
+			Name:     "corrupt_files",
+			Default:  false,
+			Help:     "Only show files that are corrupt, and folders that contain such files.",
+			Advanced: true,
 		}},
 	})
 }
@@ -88,6 +103,9 @@ type Options struct {
 	Mountpoint         string        `config:"mountpoint"`
 	MD5MemoryThreshold fs.SizeSuffix `config:"md5_memory_limit"`
 	HardDelete         bool          `config:"hard_delete"`
+	TrashedFiles       bool          `config:"trashed_files"`
+	IncompleteFiles    bool          `config:"incomplete_files"`
+	CorruptFiles       bool          `config:"corrupt_files"`
 }
 
 // Fs represents a remote jottacloud
@@ -374,16 +392,9 @@ func (f *Fs) CreateDir(path string) (jf *api.JottaFolder, err error) {
 	return jf, nil
 }
 
-// List the objects and directories in dir into entries.  The
-// entries can be returned in any order but should be for a
-// complete directory.
-//
-// dir should be "" to list the root, and should not have
-// trailing slashes.
-//
-// This should return ErrDirNotFound if the directory isn't
-// found.
-func (f *Fs) List(dir string) (entries fs.DirEntries, err error) {
+// List the objects and directories in dir into entries.
+// Optionally only list trashed files.
+func (f *Fs) list(dir string, trashedFiles bool, incompleteFiles bool, corruptFiles bool) (entries fs.DirEntries, err error) {
 	//fmt.Printf("List: %s\n", dir)
 	opts := rest.Opts{
 		Method: "GET",
@@ -391,9 +402,9 @@ func (f *Fs) List(dir string) (entries fs.DirEntries, err error) {
 	}
 
 	var resp *http.Response
-	var result api.JottaFolder
+	var folder api.JottaFolder
 	err = f.pacer.Call(func() (bool, error) {
-		resp, err = f.srv.CallXML(&opts, nil, &result)
+		resp, err = f.srv.CallXML(&opts, nil, &folder)
 		return shouldRetry(resp, err)
 	})
 
@@ -407,23 +418,45 @@ func (f *Fs) List(dir string) (entries fs.DirEntries, err error) {
 		return nil, errors.Wrap(err, "couldn't list files")
 	}
 
-	if result.Deleted {
-		return nil, fs.ErrorDirNotFound
+	if folder.Deleted {
+		if !trashedFiles {
+			return nil, fs.ErrorDirNotFound
+		}
 	}
 
-	for i := range result.Folders {
-		item := &result.Folders[i]
+	for i := range folder.Folders {
+		item := &folder.Folders[i]
 		if item.Deleted {
-			continue
+			if !trashedFiles {
+				continue
+			}
 		}
 		remote := path.Join(dir, restoreReservedChars(item.Name))
 		d := fs.NewDir(remote, time.Time(item.ModifiedAt))
 		entries = append(entries, d)
 	}
 
-	for i := range result.Files {
-		item := &result.Files[i]
-		if item.Deleted || item.State != "COMPLETED" {
+	for i := range folder.Files {
+		item := &folder.Files[i]
+		if bool(item.Deleted) != trashedFiles {
+			continue
+		}
+		stateValue, _ := item.State()
+		switch stateValue {
+		case api.JottaFileStateComplete:
+			if incompleteFiles || corruptFiles {
+				continue
+			}
+		case api.JottaFileStateIncomplete:
+			if !incompleteFiles {
+				continue
+			}
+		case api.JottaFileStateCorrupt:
+			if !corruptFiles {
+				continue
+			}
+		default:
+			//fmt.Printf("Skipping file %q with unknown state: %q\n", item.Name, stateString)
 			continue
 		}
 		remote := path.Join(dir, restoreReservedChars(item.Name))
@@ -437,18 +470,29 @@ func (f *Fs) List(dir string) (entries fs.DirEntries, err error) {
 	return entries, nil
 }
 
+// List the objects and directories in dir into entries.  The
+// entries can be returned in any order but should be for a
+// complete directory.
+//
+// dir should be "" to list the root, and should not have
+// trailing slashes.
+//
+// This should return ErrDirNotFound if the directory isn't
+// found.
+func (f *Fs) List(dir string) (entries fs.DirEntries, err error) {
+	//fmt.Printf("List: %s\n", dir)
+	return f.list(dir, f.opt.TrashedFiles, f.opt.IncompleteFiles, f.opt.CorruptFiles)
+}
+
 // listFileDirFn is called from listFileDir to handle an object.
 type listFileDirFn func(fs.DirEntry) error
 
 // List the objects and directories into entries, from a
 // special kind of JottaFolder representing a FileDirLis
-func (f *Fs) listFileDir(rootPath string, root *api.JottaFolder, fn listFileDirFn) error {
+func (f *Fs) listFileDir(rootPath string, root *api.JottaFolder, incompleteFiles bool, corruptFiles bool, fn listFileDirFn) error {
 	rootLen := len(rootPath)
 	for i := range root.Folders {
 		folder := &root.Folders[i]
-		if folder.Deleted {
-			return nil
-		}
 		folderPath := path.Join(folder.Path, folder.Name)
 		var remoteDir string
 		subLen := len(folderPath) - rootLen
@@ -462,7 +506,22 @@ func (f *Fs) listFileDir(rootPath string, root *api.JottaFolder, fn listFileDirF
 		}
 		for i := range folder.Files {
 			file := &folder.Files[i]
-			if file.Deleted || file.State != "COMPLETED" {
+			stateValue, _ := file.State()
+			switch stateValue {
+			case api.JottaFileStateComplete:
+				if incompleteFiles || corruptFiles {
+					continue
+				}
+			case api.JottaFileStateIncomplete:
+				if !incompleteFiles {
+					continue
+				}
+			case api.JottaFileStateCorrupt:
+				if !corruptFiles {
+					continue
+				}
+			default:
+				//fmt.Printf("Skipping file %q with unknown state: %q\n", item.Name, stateString)
 				continue
 			}
 			remoteFile := path.Join(remoteDir, restoreReservedChars(file.Name))
@@ -520,7 +579,7 @@ func (f *Fs) ListR(dir string, callback fs.ListRCallback) (err error) {
 	}
 	rootPath := "/" + f.filePathRaw(dir)
 	list := walk.NewListRHelper(callback)
-	err = f.listFileDir(rootPath, &result, func(entry fs.DirEntry) error {
+	err = f.listFileDir(rootPath, &result, f.opt.IncompleteFiles, f.opt.CorruptFiles, func(entry fs.DirEntry) error {
 		return list.Add(entry)
 	})
 	if err != nil {
@@ -576,7 +635,7 @@ func (f *Fs) Mkdir(dir string) error {
 }
 
 // purgeCheck removes the root directory, if check is set then it
-// refuses to do so if it has anything in
+// refuses to do so if it has anything in (that is not already trashed).
 func (f *Fs) purgeCheck(dir string, check bool) (err error) {
 	root := path.Join(f.root, dir)
 	if root == "" {
@@ -584,7 +643,7 @@ func (f *Fs) purgeCheck(dir string, check bool) (err error) {
 	}
 
 	// check that the directory exists
-	entries, err := f.List(dir)
+	entries, err := f.list(dir, false, false, false)
 	if err != nil {
 		return err
 	}
@@ -749,7 +808,7 @@ func (f *Fs) DirMove(src fs.Fs, srcRemote, dstRemote string) error {
 	//fmt.Printf("Move src: %s (FullPath %s), dst: %s (FullPath: %s)\n", srcRemote, srcPath, dstRemote, dstPath)
 
 	var err error
-	_, err = f.List(dstRemote)
+	_, err = f.list(dstRemote, false, false, false)
 	if err == fs.ErrorDirNotFound {
 		// OK
 	} else if err != nil {
