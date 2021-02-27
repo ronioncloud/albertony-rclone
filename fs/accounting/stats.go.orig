@@ -282,6 +282,7 @@ func (s *StatsInfo) calculateTransferStats() (ts transferStats) {
 		ts.speed = float64(s.bytes) / ts.transferTime
 	}
 
+<<<<<<< HEAD
 	return ts
 }
 
@@ -294,14 +295,32 @@ func (s *StatsInfo) String() string {
 
 	s.mu.RLock()
 
+	elapsedTime := time.Since(startTime)
+	elapsedTimeSecondsOnly := elapsedTime.Truncate(time.Second/10) % time.Minute
+
+	displaySpeed := ts.speed
+	if s.ci.DataRateUnit == "bits" {
+		displaySpeed *= 8
+	}
+
 	var (
-		buf                    = &bytes.Buffer{}
-		xfrchkString           = ""
-		dateString             = ""
-		elapsedTime            = time.Since(startTime)
-		elapsedTimeSecondsOnly = elapsedTime.Truncate(time.Second/10) % time.Minute
-		displaySpeed           = ts.speed
-		displaySpeedUnit       string
+		buf          = &bytes.Buffer{}
+		xfrchkString = ""
+		dateString   = ""
+=======
+	var (
+		totalChecks   = int64(s.checkQueue) + s.checks + int64(checking)
+		totalTransfer = int64(s.transferQueue) + s.transfers + int64(transferring)
+		// note that s.bytes already includes transferringBytesDone so
+		// we take it off here to avoid double counting
+		totalSize        = s.transferQueueSize + s.bytes + transferringBytesTotal - transferringBytesDone
+		currentSize      = s.bytes
+		buf              = &bytes.Buffer{}
+		xfrchkString     = ""
+		dateString       = ""
+		displaySpeed     = speed
+		displaySpeedUnit string
+>>>>>>> eff0428a1 (docs: correct spelling of data rate unit shown in stats)
 	)
 
 	if s.ci.DataRateUnit == "bits" {
@@ -333,10 +352,17 @@ func (s *StatsInfo) String() string {
 	_, _ = fmt.Fprintf(buf, "%s%10s / %s, %s, %s, ETA %s%s",
 		dateString,
 		fs.SizeSuffix(s.bytes),
-		fs.SizeSuffix(ts.totalBytes).Unit("Byte"),
+<<<<<<< HEAD
+		fs.SizeSuffix(ts.totalBytes).Unit("Bytes"),
 		percent(s.bytes, ts.totalBytes),
-		fs.SizeSuffix(displaySpeed).Unit(displaySpeedUnit),
+		fs.SizeSuffix(displaySpeed).Unit(strings.Title(s.ci.DataRateUnit)+"/s"),
 		etaString(s.bytes, ts.totalBytes, ts.speed),
+=======
+		fs.SizeSuffix(totalSize).Unit("Bytes"),
+		percent(s.bytes, totalSize),
+		fs.SizeSuffix(displaySpeed).Unit(displaySpeedUnit),
+		etaString(currentSize, totalSize, speed),
+>>>>>>> eff0428a1 (docs: correct spelling of data rate unit shown in stats)
 		xfrchkString,
 	)
 
