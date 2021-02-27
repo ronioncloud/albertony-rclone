@@ -92,7 +92,7 @@ func (tb *tokenBucket) StartTokenBucket(ctx context.Context) {
 	tb.currLimit = ci.BwLimit.LimitAt(time.Now())
 	if tb.currLimit.Bandwidth.IsSet() {
 		tb.curr = newTokenBucket(tb.currLimit.Bandwidth)
-		fs.Infof(nil, "Starting bandwidth limiter at %vBytes/s", &tb.currLimit.Bandwidth)
+		fs.Infof(nil, "Starting bandwidth limiter at %vByte/s", &tb.currLimit.Bandwidth)
 
 		// Start the SIGUSR2 signal handler to toggle bandwidth.
 		// This function does nothing in windows systems.
@@ -133,9 +133,9 @@ func (tb *tokenBucket) StartTokenTicker(ctx context.Context) {
 					*targetBucket = newTokenBucket(limitNow.Bandwidth)
 					if tb.toggledOff {
 						fs.Logf(nil, "Scheduled bandwidth change. "+
-							"Limit will be set to %vBytes/s when toggled on again.", &limitNow.Bandwidth)
+							"Limit will be set to %vByte/s when toggled on again.", &limitNow.Bandwidth)
 					} else {
-						fs.Logf(nil, "Scheduled bandwidth change. Limit set to %vBytes/s", &limitNow.Bandwidth)
+						fs.Logf(nil, "Scheduled bandwidth change. Limit set to %vByte/s", &limitNow.Bandwidth)
 					}
 				} else {
 					targetBucket._setOff()
