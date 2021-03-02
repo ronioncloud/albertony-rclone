@@ -40,7 +40,7 @@ func (x SizeSuffix) string() (string, string) {
 		suffix = ""
 	case x < 1<<20:
 		scaled = float64(x) / (1 << 10)
-		suffix = "k"
+		suffix = "K"
 	case x < 1<<30:
 		scaled = float64(x) / (1 << 20)
 		suffix = "M"
@@ -72,7 +72,13 @@ func (x SizeSuffix) Unit(unit string) string {
 	if val == "off" {
 		return val
 	}
-	return val + " " + suffix + unit
+	var suffixUnit string
+	if suffix != "" && unit != "" {
+		suffixUnit = suffix + "i" + unit
+	} else {
+		suffixUnit = suffix + unit
+	}
+	return val + " " + suffixUnit
 }
 
 // Set a SizeSuffix

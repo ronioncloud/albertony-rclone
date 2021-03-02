@@ -116,7 +116,7 @@ in the [b2 integrations checklist](https://www.backblaze.com/b2/docs/integration
 
 Files above this size will be uploaded in chunks of "--b2-chunk-size".
 
-This value should be set no larger than 4.657GiB (== 5GB).`,
+This value should be set no larger than 4.657 GiB (== 5 GB).`,
 			Default:  defaultUploadCutoff,
 			Advanced: true,
 		}, {
@@ -126,7 +126,7 @@ This value should be set no larger than 4.657GiB (== 5GB).`,
 Any files larger than this that need to be server-side copied will be
 copied in chunks of this size.
 
-The minimum is 0 and the maximum is 4.6GB.`,
+The minimum is 0 and the maximum is 4.6 GiB.`,
 			Default:  largeFileCopyCutoff,
 			Advanced: true,
 		}, {
