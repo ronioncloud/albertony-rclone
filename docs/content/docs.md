@@ -420,10 +420,10 @@ possibly signed sequence of decimal numbers, each with optional
 fraction and a unit suffix, such as "300ms", "-1.5h" or "2h45m". Valid
 time units are "ns", "us" (or "µs"), "ms", "s", "m", "h".
 
-Options which use SIZE use kByte by default.  However, a suffix of `b`
-for bytes, `k` for kByte, `M` for MByte, `G` for GByte, `T` for
-TByte and `P` for PByte may be used.  These are the binary units, e.g.
-1, 2\*\*10, 2\*\*20, 2\*\*30 respectively.
+Options which use SIZE use KiByte (multiples of 1024 bytes) by default.
+However, a suffix of `B` for Byte, `K` for KiByte, `M` for MiByte,
+`G` for GiByte, `T` for TiByte and `P` for PiByte may be used. These are
+the binary units, e.g. 1, 2\*\*10, 2\*\*20, 2\*\*30 respectively.
 
 ### --backup-dir=DIR ###
 
@@ -466,23 +466,23 @@ This option controls the bandwidth limit. For example
 
     --bwlimit 10M
     
-would mean limit the upload and download bandwidth to 10 MByte/s.
+would mean limit the upload and download bandwidth to 10 MiByte/s.
 **NB** this is **bytes** per second not **bits** per second. To use a
-single limit, specify the desired bandwidth in kByte/s, or use a
-suffix b|k|M|G. The default is `0` which means to not limit bandwidth.
+single limit, specify the desired bandwidth in KiByte/s, or use a
+suffix B|K|M|G|T|P. The default is `0` which means to not limit bandwidth.
 
 The upload and download bandwidth can be specified seperately, as
 `--bwlimit UP:DOWN`, so
 
     --bwlimit 10M:100k
 
-would mean limit the upload bandwidth to 10 MByte/s and the download
-bandwidth to 100 kByte/s. Either limit can be "off" meaning no limit, so
+would mean limit the upload bandwidth to 10 MiByte/s and the download
+bandwidth to 100 KiByte/s. Either limit can be "off" meaning no limit, so
 to just limit the upload bandwidth you would use
 
     --bwlimit 10M:off
 
-this would limit the upload bandwidth to 10 MByte/s but the download
+this would limit the upload bandwidth to 10 MiByte/s but the download
 bandwidth would be unlimited.
 
 When specified as above the bandwidth limits last for the duration of
@@ -504,19 +504,19 @@ working hours could be:
 
 `--bwlimit "08:00,512k 12:00,10M 13:00,512k 18:00,30M 23:00,off"`
 
-In this example, the transfer bandwidth will be set to 512 kByte/s
-at 8am every day. At noon, it will rise to 10 MByte/s, and drop back
-to 512 kByte/sec at 1pm. At 6pm, the bandwidth limit will be set to
-30 MByte/s, and at 11pm it will be completely disabled (full speed).
+In this example, the transfer bandwidth will be set to 512 KiByte/s
+at 8am every day. At noon, it will rise to 10 MiByte/s, and drop back
+to 512 KiByte/sec at 1pm. At 6pm, the bandwidth limit will be set to
+30 MiByte/s, and at 11pm it will be completely disabled (full speed).
 Anything between 11pm and 8am will remain unlimited.
 
 An example of timetable with `WEEKDAY` could be:
 
 `--bwlimit "Mon-00:00,512 Fri-23:59,10M Sat-10:00,1M Sun-20:00,off"`
 
-It means that, the transfer bandwidth will be set to 512 kByte/s on
-Monday. It will rise to 10 MByte/s before the end of Friday. At 10:00
-on Saturday it will be set to 1 MByte/s. From 20:00 on Sunday it will
+It means that, the transfer bandwidth will be set to 512 KiByte/s on
+Monday. It will rise to 10 MiByte/s before the end of Friday. At 10:00
+on Saturday it will be set to 1 MiByte/s. From 20:00 on Sunday it will
 be unlimited.
 
 Timeslots without `WEEKDAY` are extended to the whole week. So this
@@ -535,7 +535,7 @@ being the non HTTP backends, `ftp`, `sftp` and `tardigrade`).
 Note that the units are **Byte/s**, not **bit/s**. Typically
 connections are measured in bit/s - to convert divide by 8. For
 example, let's say you have a 10 Mbit/s connection and you wish rclone
-to use half of it - 5 Mbit/s. This is 5/8 = 0.625 MByte/s so you would
+to use half of it - 5 Mbit/s. This is 5/8 = 0.625 MiByte/s so you would
 use a `--bwlimit 0.625M` parameter for rclone.
 
 On Unix systems (Linux, macOS, …) the bandwidth limiter can be toggled by
@@ -556,7 +556,7 @@ change the bwlimit dynamically:
 This option controls per file bandwidth limit. For the options see the
 `--bwlimit` flag.
 
-For example use this to allow no transfers to be faster than 1 MByte/s
+For example use this to allow no transfers to be faster than 1 MiByte/s
 
     --bwlimit-file 1M
 
@@ -740,7 +740,7 @@ which feature does what.
 
 This flag can be useful for debugging and in exceptional circumstances
 (e.g. Google Drive limiting the total volume of Server Side Copies to
-100GB/day).
+100 GiB/day).
 
 ### --dscp VALUE ###
 
@@ -1017,7 +1017,7 @@ This is the maximum allowable backlog of files in a sync/copy/move
 queued for being checked or transferred.
 
 This can be set arbitrarily large.  It will only use memory when the
-queue is in use.  Note that it will use in the order of N kB of memory
+queue is in use.  Note that it will use in the order of N KiB of memory
 when the backlog is in use.
 
 Setting this large allows rclone to calculate how many files are
@@ -1146,13 +1146,13 @@ size of the file. To calculate the number of download streams Rclone
 divides the size of the file by the `--multi-thread-cutoff` and rounds
 up, up to the maximum set with `--multi-thread-streams`.
 
-So if `--multi-thread-cutoff 250MB` and `--multi-thread-streams 4` are
+So if `--multi-thread-cutoff 250M` and `--multi-thread-streams 4` are
 in effect (the defaults):
 
-- 0MB..250MB files will be downloaded with 1 stream
-- 250MB..500MB files will be downloaded with 2 streams
-- 500MB..750MB files will be downloaded with 3 streams
-- 750MB+ files will be downloaded with 4 streams
+- 0..250 MiB files will be downloaded with 1 stream
+- 250..500 MiB files will be downloaded with 2 streams
+- 500..750 MiB files will be downloaded with 3 streams
+- 750+ MiB files will be downloaded with 4 streams
 
 ### --no-check-dest ###
 
