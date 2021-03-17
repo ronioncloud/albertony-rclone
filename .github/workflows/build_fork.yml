@@ -1,0 +1,57 @@
+---
+# Github Actions build for rclone
+# -*- compile-command: "yamllint -f parsable build.yml" -*-
+
+name: build fork
+
+# Trigger the workflow on push or pull request
+on:
+  push:
+    branches:
+      - '*'
+      - '!master'
+    tags:
+      - '*'
+  pull_request:
+
+jobs:
+  release:
+    name: "build and publish release"
+    if: startsWith(github.ref, 'refs/tags/v')
+    #needs: test
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+        with:
+          # checkout into a fixed path to avoid import path problems on go < 1.11
+          path: ./src/github.com/rclone/rclone
+
+      - name: Cross-compile rclone
+        run: |
+          export GOPATH=${{ runner.workspace }}
+          export PATH=$GOPATH/bin:$PATH
+          docker pull billziss/xgo-cgofuse
+          GO111MODULE=off go get -v github.com/karalabe/xgo  # don't add to go.mod
+
+          xgo \
+              -image=billziss/xgo-cgofuse \
+              -targets=linux/amd64,windows/amd64 \
+              -tags=cmount \
+              -dest=build \
+              -ldflags="-s -X github.com/rclone/rclone/fs.Version=$(echo $GITHUB_REF |cut -d/ -f3)" \
+              .
+
+          cp -r build dist  # fix root ownership after xgo
+
+      - name: Publish release
+        uses: meeDamian/github-release@1.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          files: >
+            dist/rclone-linux-amd64
+            dist/rclone-windows-4.0-amd64.exe
+          gzip: false
+          allow_override: true
