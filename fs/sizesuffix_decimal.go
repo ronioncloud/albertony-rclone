@@ -83,6 +83,25 @@ func (x SizeSuffixDecimal) Unit(unit string) string {
 	return val + " " + suffixUnit
 }
 
+func (x *SizeSuffixDecimal) symbolMultiplier(s byte) (found bool, multiplier float64) {
+	switch s {
+	case 'k', 'K':
+		return true, float64(KiloByte)
+	case 'm', 'M':
+		return true, float64(MegaByte)
+	case 'g', 'G':
+		return true, float64(GigaByte)
+	case 't', 'T':
+		return true, float64(TeraByte)
+	case 'p', 'P':
+		return true, float64(PetaByte)
+	case 'e', 'E':
+		return true, float64(ExaByte)
+	default:
+		return false, float64(Byte)
+	}
+}
+
 // Set a SizeSuffixDecimal
 func (x *SizeSuffixDecimal) Set(s string) error {
 	if len(s) == 0 {
@@ -94,27 +113,25 @@ func (x *SizeSuffixDecimal) Set(s string) error {
 	}
 	suffix := s[len(s)-1]
 	suffixLen := 1
+	unitPrefix := false
 	var multiplier float64
 	switch suffix {
 	case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.':
 		suffixLen = 0
 		multiplier = float64(KiloByte)
 	case 'b', 'B':
-		multiplier = float64(Byte)
-	case 'k', 'K':
-		multiplier = float64(KiloByte)
-	case 'm', 'M':
-		multiplier = float64(MegaByte)
-	case 'g', 'G':
-		multiplier = float64(GigaByte)
-	case 't', 'T':
-		multiplier = float64(TeraByte)
-	case 'p', 'P':
-		multiplier = float64(PetaByte)
-	case 'e', 'E':
-		multiplier = float64(ExaByte)
+		if len(s) > 1 {
+			suffix = s[len(s)-2]
+			if unitPrefix, multiplier = x.symbolMultiplier(suffix); unitPrefix {
+				suffixLen = 2
+			}
+		} else {
+			multiplier = float64(Byte)
+		}
 	default:
-		return errors.Errorf("bad suffix %q", suffix)
+		if unitPrefix, multiplier = x.symbolMultiplier(suffix); !unitPrefix {
+			return errors.Errorf("bad suffix %q", suffix)
+		}
 	}
 	s = s[:len(s)-suffixLen]
 	value, err := strconv.ParseFloat(s, 64)
