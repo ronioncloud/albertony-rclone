@@ -69,9 +69,14 @@ func TestSizeSuffixDecimalSet(t *testing.T) {
 		{"0.1k", 100, false},
 		{"0.1", 100, false},
 		{"1K", 1000, false},
+		{"1k", 1000, false},
+		{"1KB", 1000, false},
+		{"1kB", 1000, false},
+		{"1kb", 1000, false},
 		{"1", 1000, false},
 		{"2.5", 1000 * 2.5, false},
 		{"1M", 1000 * 1000, false},
+		{"1MB", 1000 * 1000, false},
 		{"1.g", 1000 * 1000 * 1000, false},
 		{"10G", 10 * 1000 * 1000 * 1000, false},
 		{"10T", 10 * 1000 * 1000 * 1000 * 1000, false},
@@ -83,6 +88,10 @@ func TestSizeSuffixDecimalSet(t *testing.T) {
 		{"1.q", 0, true},
 		{"1q", 0, true},
 		{"-1K", 0, true},
+		{"1i", 0, true},
+		{"1iB", 0, true},
+		{"1Ki", 0, true},
+		{"1KiB", 0, true},
 	} {
 		ss := SizeSuffixDecimal(0)
 		err := ss.Set(test.in)
