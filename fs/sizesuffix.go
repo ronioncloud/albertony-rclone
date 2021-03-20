@@ -1,6 +1,6 @@
 package fs
 
-// SizeSuffix is parsed by flag with k/M/G suffixes
+// SizeSuffix is parsed by flag with K/M/G binary suffixes
 import (
 	"encoding/json"
 	"fmt"
@@ -35,24 +35,27 @@ func (x SizeSuffix) string() (string, string) {
 		return "off", ""
 	case x == 0:
 		return "0", ""
-	case x < 1<<10:
+	case x < KibiByte:
 		scaled = float64(x)
 		suffix = ""
-	case x < 1<<20:
-		scaled = float64(x) / (1 << 10)
+	case x < MebiByte:
+		scaled = float64(x) / float64(KibiByte)
 		suffix = "K"
-	case x < 1<<30:
-		scaled = float64(x) / (1 << 20)
+	case x < GibiByte:
+		scaled = float64(x) / float64(MebiByte)
 		suffix = "M"
-	case x < 1<<40:
-		scaled = float64(x) / (1 << 30)
+	case x < TebiByte:
+		scaled = float64(x) / float64(GibiByte)
 		suffix = "G"
-	case x < 1<<50:
-		scaled = float64(x) / (1 << 40)
+	case x < PebiByte:
+		scaled = float64(x) / float64(TebiByte)
 		suffix = "T"
-	default:
-		scaled = float64(x) / (1 << 50)
+	case x < ExbiByte:
+		scaled = float64(x) / float64(PebiByte)
 		suffix = "P"
+	default:
+		scaled = float64(x) / float64(ExbiByte)
+		suffix = "E"
 	}
 	if math.Floor(scaled) == scaled {
 		return fmt.Sprintf("%.0f", scaled), suffix
@@ -96,19 +99,21 @@ func (x *SizeSuffix) Set(s string) error {
 	switch suffix {
 	case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.':
 		suffixLen = 0
-		multiplier = 1 << 10
+		multiplier = float64(KibiByte)
 	case 'b', 'B':
-		multiplier = 1
+		multiplier = float64(Byte)
 	case 'k', 'K':
-		multiplier = 1 << 10
+		multiplier = float64(KibiByte)
 	case 'm', 'M':
-		multiplier = 1 << 20
+		multiplier = float64(MebiByte)
 	case 'g', 'G':
-		multiplier = 1 << 30
+		multiplier = float64(GibiByte)
 	case 't', 'T':
-		multiplier = 1 << 40
+		multiplier = float64(TebiByte)
 	case 'p', 'P':
-		multiplier = 1 << 50
+		multiplier = float64(PebiByte)
+	case 'e', 'E':
+		multiplier = float64(ExbiByte)
 	default:
 		return errors.Errorf("bad suffix %q", suffix)
 	}
