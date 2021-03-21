@@ -40,22 +40,22 @@ func (x SizeSuffix) string() (string, string) {
 		suffix = ""
 	case x < MebiByte:
 		scaled = float64(x) / float64(KibiByte)
-		suffix = "K"
+		suffix = "Ki"
 	case x < GibiByte:
 		scaled = float64(x) / float64(MebiByte)
-		suffix = "M"
+		suffix = "Mi"
 	case x < TebiByte:
 		scaled = float64(x) / float64(GibiByte)
-		suffix = "G"
+		suffix = "Gi"
 	case x < PebiByte:
 		scaled = float64(x) / float64(TebiByte)
-		suffix = "T"
+		suffix = "Ti"
 	case x < ExbiByte:
 		scaled = float64(x) / float64(PebiByte)
-		suffix = "P"
+		suffix = "Pi"
 	default:
 		scaled = float64(x) / float64(ExbiByte)
-		suffix = "E"
+		suffix = "Ei"
 	}
 	if math.Floor(scaled) == scaled {
 		return fmt.Sprintf("%.0f", scaled), suffix
@@ -77,7 +77,7 @@ func (x SizeSuffix) Unit(unit string) string {
 	}
 	var suffixUnit string
 	if suffix != "" && unit != "" {
-		suffixUnit = suffix + "i" + unit
+		suffixUnit = suffix + unit
 	} else {
 		suffixUnit = suffix + unit
 	}
