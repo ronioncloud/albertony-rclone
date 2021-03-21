@@ -188,6 +188,56 @@ with modules beneath.
     * rest - a thin abstraction over net/http for REST
   * vfs - Virtual FileSystem layer for implementing rclone mount and similar
 
+## Code style ##
+
+Units:
+- Bit and byte
+  - Use singular form with uppercase B for Byte and lowercase b for bit,
+    when used as a unit or an adjective. E.g. "Size: 400 Byte".
+  - When used as noun in more of a textual context, then lowercase b and plural as suited.
+    E.g. "Total size is 400 bytes", or from Windows Explorer: "132 MB (138 596 719 bytes)"
+- Transfer rates written as "unit/s" (as in "MiB/s"), or "unit per second" (as in "MiByte per second"),
+  but not "bps" (as in "Mbps")
+- Storage size and transfer rate in binary units - power of 2.
+- Binary prefixes:
+  - Use binary prefixes according to the [ISO/IEC 80000-13](https://en.wikipedia.org/wiki/IEC_80000-13)
+    standard, typically referred to as IEC, instead of the decimal prefixes used in
+    the [SI](https://en.wikipedia.org/wiki/International_System_of_Units) system (the metric system):
+  - Definition:
+    - Kibibyte (KiB) == 1,024 B == 2\*\*10 bytes
+      - Note: IEC uses uppercase 'K', in contrast to SI where 'k' is lowercase (but all larger are uppercase).
+    - Mebibyte (MiB) == 1,024 KiB == 1,048,576   B == 2\*\*20 bytes
+    - Gibibyte (GiB) == 1,024 MiB == 1,048,576 KiB == 2\*\*30 bytes
+    - Tebibyte (TiB) == 1,024 GiB == 1,048,576 MiB == 2\*\*40 bytes
+    - Pebibyte (PiB) == 1,024 TiB == 1,048,576 GiB == 2\*\*50 bytes
+    - Exbibyte (EiB) == 1,024 PiB == 1,048,576 TiB == 2\*\*60 bytes
+  - Variants:
+    - Single: B, K, M, G, T, P, Ki, Mi, Gi, Ti, Pi
+      - Used when a single word is convenient, such as option values,
+        and then immediately following a numeric value (no space between).
+      - In input the trailing i is allowed but optional, and does not
+        change the meaning (M == Mi == MiB). Casing should not matter
+        either, lowercase suffix "k" still means KiB, as in 1,024 bytes,
+        and not kB, as in 1,000 bytes.
+      - Example: "100M"
+    - Short: B, KiB, MiB, GiB, TiB, PiB
+      - Space between the value and the unit
+      - Example: "100 MiB"
+    - Medium: Byte, KiByte, MiByte, GiByte, TiByte, PiByte
+      - Always singular form, "10 MiByte" not "10 MiBytes".
+      - Example: "100 MiByte"
+    - Long: Byte, Kebibyte, Mebibyte, Gibibyte, Tebibyte, Pebibyte
+      - Normally not used (except Byte), prefer shorter variants. Only when strong emphasis needed.
+      - Plural form as suited, e.g. "10 mebibytes per second".
+      - Example: "100 mebibytes"
+- Use the KiB (1024 Byte) as default for options of type SIZE (such as `--max-transfer=SIZE`),
+  but other units can be specified by appending suffix according to the single variant described above:
+  B for bytes, k, K, Ki, ki for KiB etc.
+- Units are normally in byte, but if bit use corresponding prefixes: M, Mibit, mebibit
+  (no short notation corresponding to MiB for bit).
+- For human readable counts one may also use size prefixes, but then always decimal
+  units. E.g. "1k files", meaning 1000 files.
+
 ## Writing Documentation ##
 
 If you are adding a new feature then please update the documentation.
