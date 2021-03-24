@@ -70,7 +70,7 @@ func (x SizeSuffix) String() string {
 }
 
 // Unit turns SizeSuffix into a string with a unit
-func (x SizeSuffix) Unit(unit string) string {
+func (x SizeSuffix) unit(unit string) string {
 	val, suffix := x.string()
 	if val == "off" {
 		return val
@@ -82,6 +82,36 @@ func (x SizeSuffix) Unit(unit string) string {
 		suffixUnit = suffix + unit
 	}
 	return val + " " + suffixUnit
+}
+
+// BitUnit turns SizeSuffix into a string with bit unit
+func (x SizeSuffix) BitUnit() string {
+	return x.unit("bit")
+}
+
+// BitRateUnit turns SizeSuffix into a string with bit rate unit
+func (x SizeSuffix) BitRateUnit() string {
+	return x.unit("bit/s")
+}
+
+// ByteUnit turns SizeSuffix into a string with byte unit
+func (x SizeSuffix) ByteUnit() string {
+	return x.unit("Byte")
+}
+
+// ByteRateUnit turns SizeSuffix into a string with byte rate unit
+func (x SizeSuffix) ByteRateUnit() string {
+	return x.unit("Byte/s")
+}
+
+// ByteShortUnit turns SizeSuffix into a string with byte unit short form
+func (x SizeSuffix) ByteShortUnit() string {
+	return x.unit("B")
+}
+
+// ByteRateShortUnit turns SizeSuffix into a string with byte rate unit short form
+func (x SizeSuffix) ByteRateShortUnit() string {
+	return x.unit("B/s")
 }
 
 func (x *SizeSuffix) symbolMultiplier(s byte) (found bool, multiplier float64) {
