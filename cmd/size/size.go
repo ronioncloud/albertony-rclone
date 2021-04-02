@@ -34,7 +34,9 @@ var commandDefinition = &cobra.Command{
 				Bytes int64 `json:"bytes"`
 			}
 
-			results.Count, results.Bytes, err = operations.Count(context.Background(), fsrc)
+			ctx := context.Background()
+			ci := fs.GetConfig(context.Background())
+			results.Count, results.Bytes, err = operations.Count(ctx, fsrc)
 			if err != nil {
 				return err
 			}
@@ -42,10 +44,8 @@ var commandDefinition = &cobra.Command{
 			if jsonOutput {
 				return json.NewEncoder(os.Stdout).Encode(results)
 			}
-
-			fmt.Printf("Total objects: %d\n", results.Count)
-			fmt.Printf("Total size: %s (%d bytes)\n", fs.SizeSuffix(results.Bytes).ByteUnit(), results.Bytes)
-
+			fmt.Printf("Total objects: %s\n", operations.CountString(results.Count, ci.HumanReadable, false, 0))
+			fmt.Printf("Total bytes:   %s\n", operations.SizeString(results.Bytes, ci.HumanReadable, false, 0))
 			return nil
 		})
 	},
