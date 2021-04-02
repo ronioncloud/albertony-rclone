@@ -860,14 +860,54 @@ func syncFprintf(w io.Writer, format string, a ...interface{}) {
 	}
 }
 
+// SizeString make string representation of size for lists
+//
+// Optional human-readable format including binary suffix
+// Argument fixedField formats string with fixed field width
+// Argument rawWidth is used to format field with of raw value. When humanReadable
+// option the width is hard coded to 9, since SizeSuffix strings have precision 3
+// and longest value will be "999.999Ei". This way the width can be optimized
+// according to the humanReadable option, and to force a longer width the return
+// value can always be fed into another format string with a specific field with.
+func SizeString(size int64, humanReadable bool, fixedField bool, rawWidth int64) string {
+	if humanReadable {
+		if fixedField {
+			return fmt.Sprintf("%9v", fs.SizeSuffix(size))
+		}
+		return fs.SizeSuffix(size).String()
+	}
+	if fixedField {
+		return fmt.Sprintf("%[2]*[1]d", size, rawWidth)
+	}
+	return fmt.Sprintf("%d", size)
+}
+
+// CountString make string representation of count for lists
+//
+// Optional human-readable format including decimal suffix
+// Same as SizeString, but humanReadable width 8 since there is no 'i' ("999.999E")
+func CountString(count int64, humanReadable bool, fixedField bool, rawWidth int64) string {
+	if humanReadable {
+		if fixedField {
+			return fmt.Sprintf("%8v", fs.SizeSuffixDecimal(count))
+		}
+		return fs.SizeSuffixDecimal(count).String()
+	}
+	if fixedField {
+		return fmt.Sprintf("%[2]*[1]d", count, rawWidth)
+	}
+	return fmt.Sprintf("%d", count)
+}
+
 // List the Fs to the supplied writer
 //
 // Shows size and path - obeys includes and excludes
 //
 // Lists in parallel which may get them out of order
 func List(ctx context.Context, f fs.Fs, w io.Writer) error {
+	ci := fs.GetConfig(ctx)
 	return ListFn(ctx, f, func(o fs.Object) {
-		syncFprintf(w, "%9d %s\n", o.Size(), o.Remote())
+		syncFprintf(w, "%s %s\n", SizeString(o.Size(), ci.HumanReadable, true, 9), o.Remote())
 	})
 }
 
@@ -877,13 +917,14 @@ func List(ctx context.Context, f fs.Fs, w io.Writer) error {
 //
 // Lists in parallel which may get them out of order
 func ListLong(ctx context.Context, f fs.Fs, w io.Writer) error {
+	ci := fs.GetConfig(ctx)
 	return ListFn(ctx, f, func(o fs.Object) {
 		tr := accounting.Stats(ctx).NewCheckingTransfer(o)
 		defer func() {
 			tr.Done(ctx, nil)
 		}()
 		modTime := o.ModTime(ctx)
-		syncFprintf(w, "%9d %s %s\n", o.Size(), modTime.Local().Format("2006-01-02 15:04:05.000000000"), o.Remote())
+		syncFprintf(w, "%s %s %s\n", SizeString(o.Size(), ci.HumanReadable, true, 9), modTime.Local().Format("2006-01-02 15:04:05.000000000"), o.Remote())
 	})
 }
 
@@ -1012,10 +1053,11 @@ func ConfigMaxDepth(ctx context.Context, recursive bool) int {
 
 // ListDir lists the directories/buckets/containers in the Fs to the supplied writer
 func ListDir(ctx context.Context, f fs.Fs, w io.Writer) error {
+	ci := fs.GetConfig(ctx)
 	return walk.ListR(ctx, f, "", false, ConfigMaxDepth(ctx, false), walk.ListDirs, func(entries fs.DirEntries) error {
 		entries.ForDir(func(dir fs.Directory) {
 			if dir != nil {
-				syncFprintf(w, "%12d %13s %9d %s\n", dir.Size(), dir.ModTime(ctx).Local().Format("2006-01-02 15:04:05"), dir.Items(), dir.Remote())
+				syncFprintf(w, "%s %13s %s %s\n", SizeString(dir.Size(), ci.HumanReadable, true, 12), dir.ModTime(ctx).Local().Format("2006-01-02 15:04:05"), CountString(dir.Items(), ci.HumanReadable, true, 9), dir.Remote())
 			}
 		})
 		return nil
