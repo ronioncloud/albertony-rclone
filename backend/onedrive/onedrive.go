@@ -52,8 +52,8 @@ const (
 	driveTypePersonal           = "personal"
 	driveTypeBusiness           = "business"
 	driveTypeSharepoint         = "documentLibrary"
-	defaultChunkSize            = 10 * fs.MebiByte
-	chunkSizeMultiple           = 320 * fs.KibiByte
+	defaultChunkSize            = 10 * fs.Mebi
+	chunkSizeMultiple           = 320 * fs.Kibi
 
 	regionGlobal = "global"
 	regionUS     = "us"
@@ -693,7 +693,7 @@ func errorHandler(resp *http.Response) error {
 }
 
 func checkUploadChunkSize(cs fs.SizeSuffix) error {
-	const minChunkSize = fs.Byte
+	const minChunkSize = fs.SizeSuffixBase
 	if cs%chunkSizeMultiple != 0 {
 		return errors.Errorf("%s is not a multiple of %s", cs, chunkSizeMultiple)
 	}

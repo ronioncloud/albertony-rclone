@@ -85,8 +85,8 @@ const (
 	// Choose 48 MiB which is 91% of Maximum speed.  rclone by
 	// default does 4 transfers so this should use 4*48 MiB = 192 MiB
 	// by default.
-	defaultChunkSize = 48 * fs.MebiByte
-	maxChunkSize     = 150 * fs.MebiByte
+	defaultChunkSize = 48 * fs.Mebi
+	maxChunkSize     = 150 * fs.Mebi
 	// Max length of filename parts: https://help.dropbox.com/installs-integrations/sync-uploads/files-not-syncing
 	maxFileNameLength = 255
 )
@@ -323,7 +323,7 @@ func shouldRetry(ctx context.Context, err error) (bool, error) {
 }
 
 func checkUploadChunkSize(cs fs.SizeSuffix) error {
-	const minChunkSize = fs.Byte
+	const minChunkSize = fs.SizeSuffixBase
 	if cs < minChunkSize {
 		return errors.Errorf("%s is less than %s", cs, minChunkSize)
 	}

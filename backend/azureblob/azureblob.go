@@ -47,8 +47,8 @@ const (
 	timeFormatIn          = time.RFC3339
 	timeFormatOut         = "2006-01-02T15:04:05.000000000Z07:00"
 	storageDefaultBaseURL = "blob.core.windows.net"
-	defaultChunkSize      = 4 * fs.MebiByte
-	maxChunkSize          = 100 * fs.MebiByte
+	defaultChunkSize      = 4 * fs.Mebi
+	maxChunkSize          = 100 * fs.Mebi
 	uploadConcurrency     = 4
 	defaultAccessTier     = azblob.AccessTierNone
 	maxTryTimeout         = time.Hour * 24 * 365 //max time of an azure web request response window (whether or not data is flowing)
@@ -404,7 +404,7 @@ func (f *Fs) shouldRetry(ctx context.Context, err error) (bool, error) {
 }
 
 func checkUploadChunkSize(cs fs.SizeSuffix) error {
-	const minChunkSize = fs.Byte
+	const minChunkSize = fs.SizeSuffixBase
 	if cs < minChunkSize {
 		return errors.Errorf("%s is less than %s", cs, minChunkSize)
 	}

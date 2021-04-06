@@ -17,13 +17,21 @@ type SizeSuffix int64
 
 // Common multipliers for SizeSuffix
 const (
-	Byte SizeSuffix = 1 << (iota * 10)
-	KibiByte
-	MebiByte
-	GibiByte
-	TebiByte
-	PebiByte
-	ExbiByte
+	SizeSuffixBase SizeSuffix = 1 << (iota * 10)
+	Kibi
+	Mebi
+	Gibi
+	Tebi
+	Pebi
+	Exbi
+)
+const (
+	// SizeSuffixMax is the largest SizeSuffix multiplier
+	SizeSuffixMax = Exbi
+	// SizeSuffixMaxValue is the largest value that can be used to create SizeSuffix
+	SizeSuffixMaxValue = math.MaxInt64
+	// SizeSuffixMinValue is the smallest value that can be used to create SizeSuffix
+	SizeSuffixMinValue = math.MinInt64
 )
 
 // Turn SizeSuffix into a string and a suffix
@@ -35,26 +43,26 @@ func (x SizeSuffix) string() (string, string) {
 		return "off", ""
 	case x == 0:
 		return "0", ""
-	case x < KibiByte:
+	case x < Kibi:
 		scaled = float64(x)
 		suffix = ""
-	case x < MebiByte:
-		scaled = float64(x) / float64(KibiByte)
+	case x < Mebi:
+		scaled = float64(x) / float64(Kibi)
 		suffix = "Ki"
-	case x < GibiByte:
-		scaled = float64(x) / float64(MebiByte)
+	case x < Gibi:
+		scaled = float64(x) / float64(Mebi)
 		suffix = "Mi"
-	case x < TebiByte:
-		scaled = float64(x) / float64(GibiByte)
+	case x < Tebi:
+		scaled = float64(x) / float64(Gibi)
 		suffix = "Gi"
-	case x < PebiByte:
-		scaled = float64(x) / float64(TebiByte)
+	case x < Pebi:
+		scaled = float64(x) / float64(Tebi)
 		suffix = "Ti"
-	case x < ExbiByte:
-		scaled = float64(x) / float64(PebiByte)
+	case x < Exbi:
+		scaled = float64(x) / float64(Pebi)
 		suffix = "Pi"
 	default:
-		scaled = float64(x) / float64(ExbiByte)
+		scaled = float64(x) / float64(Exbi)
 		suffix = "Ei"
 	}
 	if math.Floor(scaled) == scaled {
@@ -117,19 +125,19 @@ func (x SizeSuffix) ByteRateShortUnit() string {
 func (x *SizeSuffix) symbolMultiplier(s byte) (found bool, multiplier float64) {
 	switch s {
 	case 'k', 'K':
-		return true, float64(KibiByte)
+		return true, float64(Kibi)
 	case 'm', 'M':
-		return true, float64(MebiByte)
+		return true, float64(Mebi)
 	case 'g', 'G':
-		return true, float64(GibiByte)
+		return true, float64(Gibi)
 	case 't', 'T':
-		return true, float64(TebiByte)
+		return true, float64(Tebi)
 	case 'p', 'P':
-		return true, float64(PebiByte)
+		return true, float64(Pebi)
 	case 'e', 'E':
-		return true, float64(ExbiByte)
+		return true, float64(Exbi)
 	default:
-		return false, float64(Byte)
+		return false, float64(SizeSuffixBase)
 	}
 }
 
@@ -149,7 +157,7 @@ func (x *SizeSuffix) Set(s string) error {
 	switch suffix {
 	case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.':
 		suffixLen = 0
-		multiplier = float64(KibiByte)
+		multiplier = float64(Kibi)
 	case 'b', 'B':
 		if len(s) > 2 && s[len(s)-2] == 'i' {
 			suffix = s[len(s)-3]
@@ -157,14 +165,14 @@ func (x *SizeSuffix) Set(s string) error {
 			if unitPrefix, multiplier = x.symbolMultiplier(suffix); !unitPrefix {
 				return errors.Errorf("bad suffix %q", suffix)
 			}
-			// TODO: Support SI form MB, treat it equivalent to MiB, or reserve it for the SizeSuffixDecimal only?
+			// TODO: Support SI form MB, treat it equivalent to MiB, or reserve it for the CountSuffix only?
 			//} else if len(s) > 1 {
 			//	suffix = s[len(s)-2]
 			//	if unitPrefix, multiplier = x.suffixUnitPrefix(suffix); unitPrefix {
 			//		suffixLen = 2
 			//	}
 		} else {
-			multiplier = float64(Byte)
+			multiplier = float64(SizeSuffixBase)
 		}
 	case 'i', 'I':
 		if len(s) > 1 {

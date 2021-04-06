@@ -36,7 +36,7 @@ import (
 const (
 	directoryMarkerContentType = "application/directory" // content type of directory marker objects
 	listChunks                 = 1000                    // chunk size to read directory listings
-	defaultChunkSize           = 5 * fs.GibiByte
+	defaultChunkSize           = 5 * fs.Gibi
 	minSleep                   = 10 * time.Millisecond // In case of error, start at 10ms sleep.
 )
 
@@ -419,7 +419,7 @@ func swiftConnection(ctx context.Context, opt *Options, name string) (*swift.Con
 }
 
 func checkUploadChunkSize(cs fs.SizeSuffix) error {
-	const minChunkSize = fs.Byte
+	const minChunkSize = fs.SizeSuffixBase
 	if cs < minChunkSize {
 		return errors.Errorf("%s is less than %s", cs, minChunkSize)
 	}
