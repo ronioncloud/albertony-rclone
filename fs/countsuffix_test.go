@@ -10,9 +10,9 @@ import (
 )
 
 // Check it satisfies the interface
-var _ flagger = (*SizeSuffixDecimal)(nil)
+var _ flagger = (*CountSuffix)(nil)
 
-func TestSizeSuffixDecimalString(t *testing.T) {
+func TestCountSuffixString(t *testing.T) {
 	for _, test := range []struct {
 		in   float64
 		want string
@@ -27,13 +27,13 @@ func TestSizeSuffixDecimalString(t *testing.T) {
 		{-1, "off"},
 		{-100, "off"},
 	} {
-		ss := SizeSuffixDecimal(test.in)
+		ss := CountSuffix(test.in)
 		got := ss.String()
 		assert.Equal(t, test.want, got)
 	}
 }
 
-func TestSizeSuffixDecimalUnit(t *testing.T) {
+func TestCountSuffixUnit(t *testing.T) {
 	for _, test := range []struct {
 		in   float64
 		want string
@@ -51,13 +51,13 @@ func TestSizeSuffixDecimalUnit(t *testing.T) {
 		{-1, "off"},
 		{-100, "off"},
 	} {
-		ss := SizeSuffixDecimal(test.in)
+		ss := CountSuffix(test.in)
 		got := ss.Unit("Byte")
 		assert.Equal(t, test.want, got)
 	}
 }
 
-func TestSizeSuffixDecimalSet(t *testing.T) {
+func TestCountSuffixSet(t *testing.T) {
 	for _, test := range []struct {
 		in   string
 		want int64
@@ -93,7 +93,7 @@ func TestSizeSuffixDecimalSet(t *testing.T) {
 		{"1Ki", 0, true},
 		{"1KiB", 0, true},
 	} {
-		ss := SizeSuffixDecimal(0)
+		ss := CountSuffix(0)
 		err := ss.Set(test.in)
 		if test.err {
 			require.Error(t, err, test.in)
@@ -104,15 +104,15 @@ func TestSizeSuffixDecimalSet(t *testing.T) {
 	}
 }
 
-func TestSizeSuffixDecimalScan(t *testing.T) {
-	var v SizeSuffixDecimal
+func TestCountSuffixScan(t *testing.T) {
+	var v CountSuffix
 	n, err := fmt.Sscan(" 17M ", &v)
 	require.NoError(t, err)
 	assert.Equal(t, 1, n)
-	assert.Equal(t, SizeSuffixDecimal(17000000), v)
+	assert.Equal(t, CountSuffix(17000000), v)
 }
 
-func TestSizeSuffixDecimalUnmarshalJSON(t *testing.T) {
+func TestCountSuffixUnmarshalJSON(t *testing.T) {
 	for _, test := range []struct {
 		in   string
 		want int64
@@ -135,7 +135,7 @@ func TestSizeSuffixDecimalUnmarshalJSON(t *testing.T) {
 		{`1000000000`, 1000000000, false},
 		{`1.1.1`, 0, true},
 	} {
-		var ss SizeSuffixDecimal
+		var ss CountSuffix
 		err := json.Unmarshal([]byte(test.in), &ss)
 		if test.err {
 			require.Error(t, err, test.in)
