@@ -860,21 +860,27 @@ func syncFprintf(w io.Writer, format string, a ...interface{}) {
 	}
 }
 
-// SizeString make string representation of size for lists
+// SizeString make string representation of size for output
 //
-// Optional human-readable format including binary suffix
+// Optional human-readable format including a binary suffix
 // Argument fixedField formats string with fixed field width
 // Argument rawWidth is used to format field with of raw value. When humanReadable
 // option the width is hard coded to 9, since SizeSuffix strings have precision 3
 // and longest value will be "999.999Ei". This way the width can be optimized
-// according to the humanReadable option, and to force a longer width the return
+// depending to the humanReadable option. To always use a longer width the return
 // value can always be fed into another format string with a specific field with.
-func SizeString(size int64, humanReadable bool, fixedField bool, rawWidth int64) string {
+func SizeString(size int64, humanReadable bool, fixedField bool, rawWidth int) string {
 	if humanReadable {
-		if fixedField {
-			return fmt.Sprintf("%9v", fs.SizeSuffix(size))
+		var str string
+		if size < 0 {
+			str = "-" + fs.SizeSuffix(-size).String()
+		} else {
+			str = fs.SizeSuffix(size).String()
 		}
-		return fs.SizeSuffix(size).String()
+		if fixedField {
+			return fmt.Sprintf("%9s", str)
+		}
+		return str
 	}
 	if fixedField {
 		return fmt.Sprintf("%[2]*[1]d", size, rawWidth)
@@ -882,16 +888,62 @@ func SizeString(size int64, humanReadable bool, fixedField bool, rawWidth int64)
 	return fmt.Sprintf("%d", size)
 }
 
-// CountString make string representation of count for lists
-//
-// Optional human-readable format including decimal suffix
-// Same as SizeString, but humanReadable width 8 since there is no 'i' ("999.999E")
-func CountString(count int64, humanReadable bool, fixedField bool, rawWidth int64) string {
+// SizeStringU make string representation of unsigned size for output
+func SizeStringU(size uint64, humanReadable bool, fixedField bool, rawWidth int) string {
 	if humanReadable {
-		if fixedField {
-			return fmt.Sprintf("%8v", fs.SizeSuffixDecimal(count))
+		var str string
+		if size <= fs.SizeSuffixMaxValue {
+			str = fs.SizeSuffix(int64(size)).String()
+		} else {
+			str = ">" + fs.SizeSuffixMax.String()
 		}
-		return fs.SizeSuffixDecimal(count).String()
+		if fixedField {
+			return fmt.Sprintf("%9s", str)
+		}
+		return str
+	}
+	if fixedField {
+		return fmt.Sprintf("%[2]*[1]d", size, rawWidth)
+	}
+	return fmt.Sprintf("%d", size)
+}
+
+// CountString make string representation of count for output
+//
+// Optional human-readable format including a decimal suffix
+// Same as SizeString, but humanReadable width 8 since there is no 'i' ("999.999E")
+func CountString(count int64, humanReadable bool, fixedField bool, rawWidth int) string {
+	if humanReadable {
+		var str string
+		if count < 0 {
+			str = "-" + fs.CountSuffix(-count).String()
+		} else {
+			str = fs.CountSuffix(count).String()
+		}
+		if fixedField {
+			return fmt.Sprintf("%8s", str)
+		}
+		return str
+	}
+	if fixedField {
+		return fmt.Sprintf("%[2]*[1]d", count, rawWidth)
+	}
+	return fmt.Sprintf("%d", count)
+}
+
+// CountStringU make string representation of unsigned count for output
+func CountStringU(count uint64, humanReadable bool, fixedField bool, rawWidth int) string {
+	if humanReadable {
+		var str string
+		if count <= fs.CountSuffixMaxValue {
+			str = fs.CountSuffix(int64(count)).String()
+		} else {
+			str = ">" + fs.CountSuffixMax.String()
+		}
+		if fixedField {
+			return fmt.Sprintf("%8s", str)
+		}
+		return str
 	}
 	if fixedField {
 		return fmt.Sprintf("%[2]*[1]d", count, rawWidth)
