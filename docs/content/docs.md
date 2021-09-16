@@ -2149,11 +2149,11 @@ You can set defaults for values in the config file on an individual
 remote basis. The names of the config items are documented in the page
 for each backend.
 
-To find the name of the environment variable, you need to set, take
+To find the name of the environment variable, you need to take
 `RCLONE_CONFIG_` + name of remote + `_` + name of config file option
-and make it all uppercase.
+in uppercase.
 
-For example, to configure an S3 remote named `mys3:` without a config
+For example, to configure an S3 remote named `MYS3:` without a config
 file (using unix ways of setting environment variables):
 
 ```
@@ -2162,17 +2162,17 @@ $ export RCLONE_CONFIG_MYS3_ACCESS_KEY_ID=XXX
 $ export RCLONE_CONFIG_MYS3_SECRET_ACCESS_KEY=XXX
 $ rclone lsd MYS3:
           -1 2016-09-21 12:54:21        -1 my-bucket
-$ rclone listremotes | grep mys3
-mys3:
+$ rclone listremotes | grep MYS3
+MYS3:
 ```
 
 Note that if you want to create a remote using environment variables
 you must create the `..._TYPE` variable as above.
 
-Note that you can only set the options of the immediate backend, 
-so RCLONE_CONFIG_MYS3CRYPT_ACCESS_KEY_ID has no effect, if myS3Crypt is 
-a crypt remote based on an S3 remote. However RCLONE_S3_ACCESS_KEY_ID will 
-set the access key of all remotes using S3, including myS3Crypt.
+Note that you can only set the options of the immediate backend,
+so RCLONE_CONFIG_MYS3CRYPT_ACCESS_KEY_ID has no effect, if MYS3CRYPT is
+a crypt remote based on an S3 remote. However RCLONE_S3_ACCESS_KEY_ID will
+set the access key of all remotes using S3, including MYS3CRYPT.
 
 Note also that now rclone has [connection strings](#connection-strings),
 it is probably easier to use those instead which makes the above example
