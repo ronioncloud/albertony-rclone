@@ -37,6 +37,8 @@ var (
 	uploadHeaders   []string
 	downloadHeaders []string
 	headers         []string
+	mimeTypes       []string
+	mimeFile        string
 )
 
 // AddFlags adds the non filing system specific flags to the command
@@ -136,6 +138,8 @@ func AddFlags(ci *fs.ConfigInfo, flagSet *pflag.FlagSet) {
 	flags.DurationVarP(flagSet, &ci.FsCacheExpireInterval, "fs-cache-expire-interval", "", ci.FsCacheExpireInterval, "interval to check for expired remotes")
 	flags.BoolVarP(flagSet, &ci.DisableHTTP2, "disable-http2", "", ci.DisableHTTP2, "Disable HTTP/2 in the global transport.")
 	flags.BoolVarP(flagSet, &ci.HumanReadable, "human-readable", "", ci.HumanReadable, "Print numbers in a human-readable format. Sizes with suffix Ki|Mi|Gi|Ti|Pi.")
+	flags.StringArrayVarP(flagSet, &mimeTypes, "mime-type", "", nil, "Set MIME type for file extensions")
+	flags.StringVarP(flagSet, &mimeFile, "mime-file", "", "", "File with MIME types and associated file extensions")
 }
 
 // ParseHeaders converts the strings passed in via the header flags into HTTPOptions
@@ -274,6 +278,19 @@ func SetFlags(ci *fs.ConfigInfo) {
 			ci.TrafficClass = value << 2
 		} else {
 			log.Fatalf("--dscp: Invalid DSCP name: %v", dscp)
+		}
+	}
+
+	if mimeFile != "" {
+		if err := fs.ImportMimeTypeFile(mimeFile, true); err != nil {
+			log.Fatalf("--mime-file: Failed to read file %q: %v", mimeFile, err)
+		}
+	}
+	if len(mimeTypes) != 0 {
+		for _, definition := range mimeTypes {
+			if err := fs.ImportMimeTypeString(definition, true); err != nil {
+				log.Fatalf("--mime-type: Mime type definition %q could not be imported: %v", definition, err)
+			}
 		}
 	}
 
