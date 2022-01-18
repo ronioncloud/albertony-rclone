@@ -377,7 +377,7 @@ func chooseDrive(ctx context.Context, name string, m configmap.Mapper, srv *rest
 	if len(drives.Drives) == 0 {
 		return fs.ConfigError("choose_type", "No drives found")
 	}
-	return fs.ConfigChoose("driveid_final", "config_driveid", "Select drive you want to use", len(drives.Drives), func(i int) (string, string) {
+	return fs.ConfigChooseExclusive("driveid_final", "config_driveid", "Select drive you want to use", len(drives.Drives), func(i int) (string, string) {
 		drive := drives.Drives[i]
 		return drive.DriveID, fmt.Sprintf("%s (%s)", drive.DriveName, drive.DriveType)
 	})
@@ -411,7 +411,7 @@ func Config(ctx context.Context, name string, m configmap.Mapper, config fs.Conf
 
 	switch config.State {
 	case "choose_type":
-		return fs.ConfigChooseFixed("choose_type_done", "config_type", "Type of connection", []fs.OptionExample{{
+		return fs.ConfigChooseExclusiveFixed("choose_type_done", "config_type", "Type of connection", []fs.OptionExample{{
 			Value: "onedrive",
 			Help:  "OneDrive Personal or Business",
 		}, {
@@ -506,7 +506,7 @@ Example: "https://contoso.sharepoint.com/sites/mysite" or "mysite"
 		if len(sites.Sites) == 0 {
 			return fs.ConfigError("choose_type", fmt.Sprintf("search for %q returned no results", searchTerm))
 		}
-		return fs.ConfigChoose("search_sites", "config_site", `Select the Site you want to use`, len(sites.Sites), func(i int) (string, string) {
+		return fs.ConfigChooseExclusive("search_sites", "config_site", `Select the Site you want to use`, len(sites.Sites), func(i int) (string, string) {
 			site := sites.Sites[i]
 			return site.SiteID, fmt.Sprintf("%s (%s)", site.SiteName, site.SiteURL)
 		})

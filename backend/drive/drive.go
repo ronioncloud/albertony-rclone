@@ -235,7 +235,7 @@ func init() {
 				if len(teamDrives) == 0 {
 					return fs.ConfigError("", "No Shared Drives found in your account")
 				}
-				return fs.ConfigChoose("teamdrive_final", "config_team_drive", "Shared Drive", len(teamDrives), func(i int) (string, string) {
+				return fs.ConfigChooseExclusive("teamdrive_final", "config_team_drive", "Shared Drive", len(teamDrives), func(i int) (string, string) {
 					teamDrive := teamDrives[i]
 					return teamDrive.Id, teamDrive.Name
 				})

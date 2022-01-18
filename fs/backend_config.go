@@ -176,7 +176,7 @@ func ConfigConfirm(state string, Default bool, name string, help string) (*Confi
 	}, nil
 }
 
-// ConfigChooseFixed returns a ConfigOut structure which has a list of items to choose from.
+// ConfigChooseExclusiveFixed returns a ConfigOut structure which has a list of items to choose from.
 //
 // state should be the next state required
 // name is the config name for this item
@@ -186,7 +186,7 @@ func ConfigConfirm(state string, Default bool, name string, help string) (*Confi
 // It chooses the first item to be the default.
 // If there are no items then it will return an error.
 // If there is only one item it will short cut to the next state
-func ConfigChooseFixed(state string, name string, help string, items []OptionExample) (*ConfigOut, error) {
+func ConfigChooseExclusiveFixed(state string, name string, help string, items []OptionExample) (*ConfigOut, error) {
 	if len(items) == 0 {
 		return nil, fmt.Errorf("no items found in: %s", help)
 	}
@@ -208,7 +208,7 @@ func ConfigChooseFixed(state string, name string, help string, items []OptionExa
 	return choose, nil
 }
 
-// ConfigChoose returns a ConfigOut structure which has a list of items to choose from.
+// ConfigChooseExclusive returns a ConfigOut structure which has a list of items to choose from.
 //
 // state should be the next state required
 // name is the config name for this item
@@ -219,6 +219,49 @@ func ConfigChooseFixed(state string, name string, help string, items []OptionExa
 // It chooses the first item to be the default.
 // If there are no items then it will return an error.
 // If there is only one item it will short cut to the next state
+func ConfigChooseExclusive(state string, name string, help string, n int, getItem func(i int) (itemValue string, itemHelp string)) (*ConfigOut, error) {
+	items := make(OptionExamples, n)
+	for i := range items {
+		items[i].Value, items[i].Help = getItem(i)
+	}
+	return ConfigChooseExclusiveFixed(state, name, help, items)
+}
+
+// ConfigChooseFixed returns a ConfigOut structure which has a list of items to choose from.
+//
+// state should be the next state required
+// name is the config name for this item
+// help should be the help shown to the user
+// items should be the items in the list
+//
+// It chooses the first item to be the default.
+// Value is required but is not restricted to the specified list.
+func ConfigChooseFixed(state string, name string, help string, items []OptionExample) (*ConfigOut, error) {
+	choose := &ConfigOut{
+		State: state,
+		Option: &Option{
+			Name:     name,
+			Help:     help,
+			Examples: items,
+			Required: true,
+		},
+	}
+	if len(choose.Option.Examples) > 0 {
+		choose.Option.Default = choose.Option.Examples[0].Value
+	}
+	return choose, nil
+}
+
+// ConfigChoose returns a ConfigOut structure which has a list of items to choose from.
+//
+// state should be the next state required
+// name is the config name for this item
+// help should be the help shown to the user
+// n should be the number of items in the list
+// getItem should return the items (value, help)
+//
+// It chooses the first item to be the default.
+// Value is required but is not restricted to the specified list.
 func ConfigChoose(state string, name string, help string, n int, getItem func(i int) (itemValue string, itemHelp string)) (*ConfigOut, error) {
 	items := make(OptionExamples, n)
 	for i := range items {
