@@ -240,11 +240,10 @@ func init() {
 			return TokenBucket.rcBwlimit(ctx, in)
 		},
 		Title: "Set the bandwidth limit.",
-		Help: `
-This sets the bandwidth limit to the string passed in. This should be
+		Help: `This sets the bandwidth limit to the string passed in. This should be
 a single bandwidth limit entry or a pair of upload:download bandwidth.
 
-Eg
+E.g.
 
     rclone rc core/bwlimit rate=off
     {
@@ -268,7 +267,6 @@ Eg
         "rate": "1M"
     }
 
-
 If the rate parameter is not supplied then the bandwidth is queried
 
     rclone rc core/bwlimit
@@ -283,7 +281,6 @@ The format of the parameter is exactly the same as passed to --bwlimit
 except only one bandwidth may be specified.
 
 In either case "rate" is returned as a human-readable string, and
-"bytesPerSecond" is returned as a number.
-`,
+"bytesPerSecond" is returned as a number.`,
 	})
 }

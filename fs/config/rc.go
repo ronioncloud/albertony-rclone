@@ -14,14 +14,13 @@ func init() {
 		Fn:           rcDump,
 		Title:        "Dumps the config file.",
 		AuthRequired: true,
-		Help: `
-Returns a JSON object:
+		Help: `Returns a JSON object:
+
 - key: value
 
 Where keys are remote names and values are the config parameters.
 
-See the [config dump command](/commands/rclone_config_dump/) command for more information on the above.
-`,
+See the [config dump command](/commands/rclone_config_dump/) command for more information on the above.`,
 	})
 }
 
@@ -36,13 +35,11 @@ func init() {
 		Fn:           rcGet,
 		Title:        "Get a remote in the config file.",
 		AuthRequired: true,
-		Help: `
-Parameters:
+		Help: `Parameters:
 
 - name - name of remote to get
 
-See the [config dump command](/commands/rclone_config_dump/) command for more information on the above.
-`,
+See the [config dump command](/commands/rclone_config_dump/) command for more information on the above.`,
 	})
 }
 
@@ -61,12 +58,11 @@ func init() {
 		Fn:           rcListRemotes,
 		Title:        "Lists the remotes in the config file.",
 		AuthRequired: true,
-		Help: `
-Returns
+		Help: `Returns:
+
 - remotes - array of remote names
 
-See the [listremotes command](/commands/rclone_listremotes/) command for more information on the above.
-`,
+See the [listremotes command](/commands/rclone_listremotes/) command for more information on the above.`,
 	})
 }
 
@@ -88,12 +84,11 @@ func init() {
 		Fn:           rcProviders,
 		Title:        "Shows how providers are configured in the config file.",
 		AuthRequired: true,
-		Help: `
-Returns a JSON object:
+		Help: `Returns a JSON object:
+
 - providers - array of objects
 
-See the [config providers command](/commands/rclone_config_providers/) command for more information on the above.
-`,
+See the [config providers command](/commands/rclone_config_providers/) command for more information on the above.`,
 	})
 }
 
@@ -135,7 +130,6 @@ func init() {
 - name - name of remote
 - parameters - a map of \{ "key": "value" \} pairs
 ` + extraHelp + `
-
 See the [config ` + name + ` command](/commands/rclone_config_` + name + `/) command for more information on the above.`,
 		})
 	}
@@ -201,13 +195,11 @@ func init() {
 		Fn:           rcDelete,
 		Title:        "Delete a remote in the config file.",
 		AuthRequired: true,
-		Help: `
-Parameters:
+		Help: `Parameters:
 
 - name - name of remote to delete
 
-See the [config delete command](/commands/rclone_config_delete/) command for more information on the above.
-`,
+See the [config delete command](/commands/rclone_config_delete/) command for more information on the above.`,
 	})
 }
 

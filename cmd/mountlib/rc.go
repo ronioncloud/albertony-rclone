@@ -145,8 +145,7 @@ func init() {
 		AuthRequired: true,
 		Fn:           unMountRc,
 		Title:        "Unmount selected active mount",
-		Help: `
-rclone allows Linux, FreeBSD, macOS and Windows to
+		Help: `rclone allows Linux, FreeBSD, macOS and Windows to
 mount any of Rclone's cloud storage systems as a file system with
 FUSE.
 
@@ -156,8 +155,7 @@ This takes the following parameters:
 
 Example:
 
-    rclone rc mount/unmount mountPoint=/home/<user>/mountPoint
-`,
+    rclone rc mount/unmount mountPoint=/home/<user>/mountPoint`,
 	})
 }
 
@@ -195,7 +193,7 @@ This takes no parameters and returns
 The mount types are strings like "mount", "mount2", "cmount" and can
 be passed to mount/mount as the mountType parameter.
 
-Eg
+E.g.
 
     rclone rc mount/types
 `,
@@ -228,7 +226,7 @@ This takes no parameters and returns
 
 - mountPoints: list of current mount points
 
-Eg
+E.g.
 
     rclone rc mount/listmounts
 `,
@@ -276,7 +274,7 @@ func init() {
 
 This takes no parameters and returns error if unmount does not succeed.
 
-Eg
+E.g.
 
     rclone rc mount/unmountall
 `,

@@ -26,7 +26,6 @@ func init() {
 - dstFs - a remote name string e.g. "drive:dst" for the destination
 - createEmptySrcDirs - create empty src directories on destination if set
 ` + moveHelp + `
-
 See the [` + name + ` command](/commands/rclone_` + name + `/) command for more information on the above.`,
 		})
 	}

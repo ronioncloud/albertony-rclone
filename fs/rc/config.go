@@ -35,6 +35,7 @@ func init() {
 		Fn:    rcOptionsBlocks,
 		Title: "List all the option blocks",
 		Help: `Returns:
+
 - options - a list of the options block names`,
 	})
 }
@@ -63,8 +64,7 @@ the _config and _filter parameters. If you wish to read the parameters
 set in _config then use options/config and for _filter use options/filter.
 
 This shows the internal names of the option within rclone which should
-map to the external options very easily with a few exceptions.
-`,
+map to the external options very easily with a few exceptions.`,
 	})
 }
 
@@ -94,8 +94,7 @@ This call is mostly useful for seeing if _config and _filter passing
 is working.
 
 This shows the internal names of the option within rclone which should
-map to the external options very easily with a few exceptions.
-`,
+map to the external options very easily with a few exceptions.`,
 	})
 }
 
@@ -115,7 +114,7 @@ func init() {
 		Help: `Parameters:
 
 - option block name containing an object with
-  - key: value
+    - key: value
 
 Repeated as often as required.
 
@@ -136,8 +135,7 @@ And this sets INFO level logs (-v)
 
 And this sets NOTICE level logs (normal without -v)
 
-    rclone rc options/set --json '{"main": {"LogLevel": "NOTICE"}}'
-`,
+    rclone rc options/set --json '{"main": {"LogLevel": "NOTICE"}}'`,
 	})
 }
 

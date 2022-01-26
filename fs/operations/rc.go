@@ -78,8 +78,8 @@ func init() {
 		Title:        "Give information about the supplied file or directory",
 		Help: `This takes the following parameters
 
-- fs - a remote name string eg "drive:"
-- remote - a path within that remote eg "dir"
+- fs - a remote name string e.g. "drive:"
+- remote - a path within that remote e.g. "dir"
 - opt - a dictionary of options to control the listing (optional)
     - see operations/list for the options
 
@@ -90,8 +90,7 @@ The result is
 Note that if you are only interested in files then it is much more
 efficient to set the filesOnly flag in the options.
 
-See the [lsjson command](/commands/rclone_lsjson/) for more information on the above and examples.
-`,
+See the [lsjson command](/commands/rclone_lsjson/) for more information on the above and examples.`,
 	})
 }
 
@@ -127,8 +126,7 @@ func init() {
 
 The result is as returned from rclone about --json
 
-See the [about command](/commands/rclone_size/) command for more information on the above.
-`,
+See the [about command](/commands/rclone_size/) command for more information on the above.`,
 	})
 }
 
@@ -172,8 +170,7 @@ func init() {
 - srcFs - a remote name string e.g. "drive:" for the source
 - srcRemote - a path within that remote e.g. "file.txt" for the source
 - dstFs - a remote name string e.g. "drive2:" for the destination
-- dstRemote - a path within that remote e.g. "file2.txt" for the destination
-`,
+- dstRemote - a path within that remote e.g. "file2.txt" for the destination`,
 		})
 	}
 }
@@ -226,8 +223,7 @@ func init() {
 
 - fs - a remote name string e.g. "drive:"
 ` + remote + op.help + `
-See the [` + op.name + ` command](/commands/rclone_` + op.name + `/) command for more information on the above.
-`,
+See the [` + op.name + ` command](/commands/rclone_` + op.name + `/) command for more information on the above.`,
 		})
 	}
 }
@@ -333,8 +329,7 @@ Returns:
 - count - number of files
 - bytes - number of bytes in those files
 
-See the [size command](/commands/rclone_size/) command for more information on the above.
-`,
+See the [size command](/commands/rclone_size/) command for more information on the above.`,
 	})
 }
 
@@ -371,8 +366,7 @@ Returns:
 
 - url - URL of the resource
 
-See the [link command](/commands/rclone_link/) command for more information on the above.
-`,
+See the [link command](/commands/rclone_link/) command for more information on the above.`,
 	})
 }
 
@@ -409,55 +403,52 @@ func init() {
 
 This returns info about the remote passed in;
 
-` + "```" + `
-{
-	// optional features and whether they are available or not
-	"Features": {
-		"About": true,
-		"BucketBased": false,
-		"CanHaveEmptyDirectories": true,
-		"CaseInsensitive": false,
-		"ChangeNotify": false,
-		"CleanUp": false,
-		"Copy": false,
-		"DirCacheFlush": false,
-		"DirMove": true,
-		"DuplicateFiles": false,
-		"GetTier": false,
-		"ListR": false,
-		"MergeDirs": false,
-		"Move": true,
-		"OpenWriterAt": true,
-		"PublicLink": false,
-		"Purge": true,
-		"PutStream": true,
-		"PutUnchecked": false,
-		"ReadMimeType": false,
-		"ServerSideAcrossConfigs": false,
-		"SetTier": false,
-		"SetWrapper": false,
-		"UnWrap": false,
-		"WrapFs": false,
-		"WriteMimeType": false
-	},
-	// Names of hashes available
-	"Hashes": [
-		"MD5",
-		"SHA-1",
-		"DropboxHash",
-		"QuickXorHash"
-	],
-	"Name": "local",	// Name as created
-	"Precision": 1,		// Precision of timestamps in ns
-	"Root": "/",		// Path as created
-	"String": "Local file system at /" // how the remote will appear in logs
-}
-` + "```" + `
+    {
+        // optional features and whether they are available or not
+        "Features": {
+            "About": true,
+            "BucketBased": false,
+            "CanHaveEmptyDirectories": true,
+            "CaseInsensitive": false,
+            "ChangeNotify": false,
+            "CleanUp": false,
+            "Copy": false,
+            "DirCacheFlush": false,
+            "DirMove": true,
+            "DuplicateFiles": false,
+            "GetTier": false,
+            "ListR": false,
+            "MergeDirs": false,
+            "Move": true,
+            "OpenWriterAt": true,
+            "PublicLink": false,
+            "Purge": true,
+            "PutStream": true,
+            "PutUnchecked": false,
+            "ReadMimeType": false,
+            "ServerSideAcrossConfigs": false,
+            "SetTier": false,
+            "SetWrapper": false,
+            "UnWrap": false,
+            "WrapFs": false,
+            "WriteMimeType": false
+        },
+        // Names of hashes available
+        "Hashes": [
+            "MD5",
+            "SHA-1",
+            "DropboxHash",
+            "QuickXorHash"
+        ],
+        "Name": "local",    // Name as created
+        "Precision": 1,     // Precision of timestamps in ns
+        "Root": "/",        // Path as created
+        "String": "Local file system at /" // how the remote will appear in logs
+    }
 
 This command does not have a command line equivalent so use this instead:
 
     rclone rc --loopback operations/fsinfo fs=remote:
-
 `,
 	})
 }
@@ -497,23 +488,21 @@ Example:
 
     rclone rc backend/command command=noop fs=. -o echo=yes -o blue -a path1 -a path2
 
-Returns
+Returns:
 
-` + "```" + `
-{
-	"result": {
-		"arg": [
-			"path1",
-			"path2"
-		],
-		"name": "noop",
-		"opt": {
-			"blue": "",
-			"echo": "yes"
-		}
-	}
-}
-` + "```" + `
+    {
+        "result": {
+            "arg": [
+                "path1",
+                "path2"
+            ],
+            "name": "noop",
+            "opt": {
+                "blue": "",
+                "echo": "yes"
+            }
+        }
+    }
 
 Note that this is the direct equivalent of using this "backend"
 command:
@@ -522,8 +511,7 @@ command:
 
 Note that arguments must be preceded by the "-a" flag
 
-See the [backend](/commands/rclone_backend/) command for more information.
-`,
+See the [backend](/commands/rclone_backend/) command for more information.`,
 	})
 }
 

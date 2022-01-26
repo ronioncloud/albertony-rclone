@@ -93,14 +93,12 @@ func init() {
 		Fn:           rcCacheClear,
 		Title:        "Clear the Fs cache.",
 		AuthRequired: true,
-		Help: `
-This clears the fs cache. This is where remotes created from backends
+		Help: `This clears the fs cache. This is where remotes created from backends
 are cached for a short while to make repeated rc calls more efficient.
 
 If you change the parameters of a backend then you may want to call
 this to clear an existing remote out of the cache before re-creating
-it.
-`,
+it.`,
 	})
 }
 
@@ -116,12 +114,11 @@ func init() {
 		Fn:           rcCacheEntries,
 		Title:        "Returns the number of entries in the fs cache.",
 		AuthRequired: true,
-		Help: `
-This returns the number of entries in the fs cache.
+		Help: `This returns the number of entries in the fs cache.
 
-Returns
-- entries - number of items in the cache
-`,
+Returns:
+
+- entries - number of items in the cache`,
 	})
 }
 

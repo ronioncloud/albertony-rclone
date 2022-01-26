@@ -26,18 +26,16 @@ func init() {
 		AuthRequired: true,
 		Fn:           rcNoop,
 		Title:        "Echo the input to the output parameters requiring auth",
-		Help: `
-This echoes the input parameters to the output parameters for testing
-purposes.  It can be used to check that rclone is still alive and to
+		Help: `This echoes the input parameters to the output parameters for testing
+purposes. It can be used to check that rclone is still alive and to
 check that parameter passing is working properly.`,
 	})
 	Add(Call{
 		Path:  "rc/noop",
 		Fn:    rcNoop,
 		Title: "Echo the input to the output parameters",
-		Help: `
-This echoes the input parameters to the output parameters for testing
-purposes.  It can be used to check that rclone is still alive and to
+		Help: `This echoes the input parameters to the output parameters for testing
+purposes. It can be used to check that rclone is still alive and to
 check that parameter passing is working properly.`,
 	})
 }
@@ -52,8 +50,7 @@ func init() {
 		Path:  "rc/error",
 		Fn:    rcError,
 		Title: "This returns an error",
-		Help: `
-This returns an error with the input as part of its error string.
+		Help: `This returns an error with the input as part of its error string.
 Useful for testing error handling.`,
 	})
 }
@@ -68,8 +65,7 @@ func init() {
 		Path:  "rc/list",
 		Fn:    rcList,
 		Title: "List all the registered remote control commands",
-		Help: `
-This lists all the registered remote control commands as a JSON map in
+		Help: `This lists all the registered remote control commands as a JSON map in
 the commands response.`,
 	})
 }
@@ -86,8 +82,7 @@ func init() {
 		Path:  "core/pid",
 		Fn:    rcPid,
 		Title: "Return PID of current process",
-		Help: `
-This returns PID of current process.
+		Help: `This returns PID of current process.
 Useful for stopping rclone process.`,
 	})
 }
@@ -104,8 +99,7 @@ func init() {
 		Path:  "core/memstats",
 		Fn:    rcMemStats,
 		Title: "Returns the memory statistics",
-		Help: `
-This returns the memory statistics of the running program.  What the values mean
+		Help: `This returns the memory statistics of the running program.  What the values mean
 are explained in the go docs: https://golang.org/pkg/runtime/#MemStats
 
 The most interesting values for most people are:
@@ -113,8 +107,7 @@ The most interesting values for most people are:
 - HeapAlloc - this is the amount of memory rclone is actually using
 - HeapSys - this is the amount of memory rclone has obtained from the OS
 - Sys - this is the total amount of memory requested from the OS
-   - It is virtual memory so may include unused memory
-`,
+    - It is virtual memory so may include unused memory`,
 	})
 }
 
@@ -151,11 +144,9 @@ func init() {
 		Path:  "core/gc",
 		Fn:    rcGc,
 		Title: "Runs a garbage collection.",
-		Help: `
-This tells the go runtime to do a garbage collection run.  It isn't
+		Help: `This tells the go runtime to do a garbage collection run.  It isn't
 necessary to call this normally, but it can be useful for debugging
-memory problems.
-`,
+memory problems.`,
 	})
 }
 
@@ -170,8 +161,7 @@ func init() {
 		Path:  "core/version",
 		Fn:    rcVersion,
 		Title: "Shows the current version of rclone and the go runtime.",
-		Help: `
-This shows the current version of go and the go runtime:
+		Help: `This shows the current version of go and the go runtime:
 
 - version - rclone version, e.g. "v1.53.0"
 - decomposed - version number as [major, minor, patch]
@@ -181,9 +171,7 @@ This shows the current version of go and the go runtime:
 - arch - cpu architecture in use according to Go
 - goVersion - version of Go runtime in use
 - linking - type of rclone executable (static or dynamic)
-- goTags - space separated build tags or "none"
-
-`,
+- goTags - space separated build tags or "none"`,
 	})
 }
 
@@ -213,13 +201,13 @@ func init() {
 		Path:  "core/obscure",
 		Fn:    rcObscure,
 		Title: "Obscures a string passed in.",
-		Help: `
-Pass a clear string and rclone will obscure it for the config file:
+		Help: `Pass a clear string and rclone will obscure it for the config file:
+
 - clear - string
 
 Returns:
-- obscured - string
-`,
+
+- obscured - string`,
 	})
 }
 
@@ -244,10 +232,9 @@ func init() {
 		Path:  "core/quit",
 		Fn:    rcQuit,
 		Title: "Terminates the app.",
-		Help: `
-(Optional) Pass an exit code to be used for terminating the app:
-- exitCode - int
-`,
+		Help: `(Optional) Pass an exit code to be used for terminating the app:
+
+- exitCode - int`,
 	})
 }
 
@@ -277,8 +264,7 @@ func init() {
 		Path:  "debug/set-mutex-profile-fraction",
 		Fn:    rcSetMutexProfileFraction,
 		Title: "Set runtime.SetMutexProfileFraction for mutex profiling.",
-		Help: `
-SetMutexProfileFraction controls the fraction of mutex contention
+		Help: `SetMutexProfileFraction controls the fraction of mutex contention
 events that are reported in the mutex profile. On average 1/rate
 events are reported. The previous rate is returned.
 
@@ -295,8 +281,7 @@ Parameters:
 
 Results:
 
-- previousRate - int
-`,
+- previousRate - int`,
 	})
 }
 
@@ -317,8 +302,7 @@ func init() {
 		Path:  "debug/set-block-profile-rate",
 		Fn:    rcSetBlockProfileRate,
 		Title: "Set runtime.SetBlockProfileRate for blocking profiling.",
-		Help: `
-SetBlockProfileRate controls the fraction of goroutine blocking events
+		Help: `SetBlockProfileRate controls the fraction of goroutine blocking events
 that are reported in the blocking profile. The profiler aims to sample
 an average of one blocking event per rate nanoseconds spent blocked.
 
@@ -331,8 +315,7 @@ After calling this you can use this to see the blocking profile:
 
 Parameters:
 
-- rate - int
-`,
+- rate - int`,
 	})
 }
 
@@ -368,7 +351,7 @@ Returns:
 
 - result - result from the backend command.
     - Only set when using returnType "COMBINED_OUTPUT".
-- error	 - set if rclone exits with an error code.
+- error - set if rclone exits with an error code.
 - returnType - one of ("COMBINED_OUTPUT", "STREAM", "STREAM_ONLY_STDOUT", "STREAM_ONLY_STDERR").
 
 Example:
@@ -378,20 +361,17 @@ Example:
 
 Returns:
 
-` + "```" + `
-{
-	"error": false,
-	"result": "<Raw command line output>"
-}
+    {
+        "error": false,
+        "result": "<Raw command line output>"
+    }
 
-OR 
-{
-	"error": true,
-	"result": "<Raw command line output>"
-}
+Or:
 
-` + "```" + `
-`,
+    {
+        "error": true,
+        "result": "<Raw command line output>"
+    }`,
 	})
 }
 
@@ -475,7 +455,7 @@ func rcRunCommand(ctx context.Context, in Params) (out Params, err error) {
 		cmd.Stdout = httpResponse
 		cmd.Stderr = httpResponse
 	} else {
-		return nil, fmt.Errorf("Unknown returnType %q", returnType)
+		return nil, fmt.Errorf("unknown returnType %q", returnType)
 	}
 
 	err = cmd.Run()

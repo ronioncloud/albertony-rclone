@@ -87,8 +87,7 @@ This takes the following parameters:
 
 Example:
 
-   rclone rc pluginsctl/addPlugin
-`,
+    rclone rc pluginsctl/addPlugin`,
 	})
 }
 
@@ -198,8 +197,7 @@ This takes no parameters and returns:
 
 E.g.
 
-   rclone rc pluginsctl/listPlugins
-`,
+    rclone rc pluginsctl/listPlugins`,
 	})
 }
 
@@ -232,8 +230,7 @@ This takes parameters:
 
 E.g.
 
-   rclone rc pluginsctl/removePlugin name=rclone/video-plugin
-`,
+    rclone rc pluginsctl/removePlugin name=rclone/video-plugin`,
 	})
 }
 
@@ -274,8 +271,7 @@ Returns:
 
 Example:
 
-   rclone rc pluginsctl/getPluginsForType type=video/mp4
-`,
+    rclone rc pluginsctl/getPluginsForType type=video/mp4`,
 	})
 }
 

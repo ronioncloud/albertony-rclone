@@ -13,7 +13,7 @@ import (
 	"github.com/rclone/rclone/fs/rc"
 )
 
-const getVFSHelp = ` 
+const getVFSHelp = `
 This command takes an "fs" parameter. If this parameter is not
 supplied and if there is only one VFS in use then that VFS will be
 used. If there is more than one VFS in use then the "fs" parameter
@@ -57,8 +57,7 @@ func init() {
 		Path:  "vfs/refresh",
 		Fn:    rcRefresh,
 		Title: "Refresh the directory cache.",
-		Help: `
-This reads the directories for the specified paths and freshens the
+		Help: `This reads the directories for the specified paths and freshens the
 directory cache.
 
 If no paths are passed in then it will refresh the root directory.
@@ -172,8 +171,7 @@ func init() {
 		Path:  "vfs/forget",
 		Fn:    rcForget,
 		Title: "Forget files or directories in the directory cache.",
-		Help: `
-This forgets the paths in the directory cache causing them to be
+		Help: `This forgets the paths in the directory cache causing them to be
 re-read from the remote when needed.
 
 If no paths are passed in then it will forget all the paths in the
@@ -290,8 +288,7 @@ func init() {
 		Path:  "vfs/poll-interval",
 		Fn:    rcPollInterval,
 		Title: "Get the status or update the value of the poll-interval option.",
-		Help: `
-Without any parameter given this returns the current status of the
+		Help: `Without any parameter given this returns the current status of the
 poll-interval setting.
 
 When the interval=duration parameter is set, the poll-interval value
@@ -362,8 +359,7 @@ func init() {
 	rc.Add(rc.Call{
 		Path:  "vfs/list",
 		Title: "List active VFSes.",
-		Help: `
-This lists the active VFSes.
+		Help: `This lists the active VFSes.
 
 It returns a list under the key "vfses" where the values are the VFS
 names that could be passed to the other VFS commands in the "fs"
@@ -394,8 +390,7 @@ func init() {
 	rc.Add(rc.Call{
 		Path:  "vfs/stats",
 		Title: "Stats for a VFS.",
-		Help: `
-This returns stats for the selected VFS.
+		Help: `This returns stats for the selected VFS.
 
     {
         // Status of the disk cache - only present if --vfs-cache-mode > off
@@ -424,7 +419,6 @@ This returns stats for the selected VFS.
             "WriteWait": 1000000000
         }
     }
-
 ` + getVFSHelp,
 		Fn: rcStats,
 	})
