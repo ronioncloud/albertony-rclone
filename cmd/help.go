@@ -272,7 +272,7 @@ and may be set in the config file.
 
 // show all the backends
 func showBackends() {
-	fmt.Printf("All rclone backends:\n\n")
+	fmt.Printf("Available Backends:\n")
 	for _, backend := range fs.Registry {
 		fmt.Printf("  %-12s %s\n", backend.Prefix, backend.Description)
 	}
