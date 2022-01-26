@@ -368,9 +368,9 @@ func HelpString(indent int) string {
 	padding := strings.Repeat(" ", indent)
 	var help strings.Builder
 	help.WriteString(padding)
-	help.WriteString("Supported hashes are:\n")
+	help.WriteString("Supported hashes:\n")
 	for _, h := range supported {
-		fmt.Fprintf(&help, "%s  * %v\n", padding, h.String())
+		fmt.Fprintf(&help, "%s  %v\n", padding, h.String())
 	}
 	return help.String()
 }
