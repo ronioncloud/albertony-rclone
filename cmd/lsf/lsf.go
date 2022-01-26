@@ -50,7 +50,7 @@ standard output in a form which is easy to parse by scripts.  By
 default this will just be the names of the objects and directories,
 one per line.  The directories will have a / suffix.
 
-Eg
+E.g.
 
     $ rclone lsf swift:bucket
     bevajer5jef
@@ -76,7 +76,7 @@ output:
 So if you wanted the path, size and modification time, you would use
 --format "pst", or maybe --format "tsp" to put the path last.
 
-Eg
+E.g.
 
     $ rclone lsf  --format "tsp" swift:bucket
     2016-06-25 18:55:41;60295;bevajer5jef
@@ -96,7 +96,7 @@ For example, to emulate the md5sum command you can use
 
     rclone lsf -R --hash MD5 --format hp --separator "  " --files-only .
 
-Eg
+E.g.
 
     $ rclone lsf -R --hash MD5 --format hp --separator "  " --files-only swift:bucket
     7908e352297f0f530b84a756f188baa3  bevajer5jef
@@ -111,7 +111,7 @@ By default the separator is ";" this can be changed with the
 --separator flag.  Note that separators aren't escaped in the path so
 putting it last is a good strategy.
 
-Eg
+E.g.
 
     $ rclone lsf  --separator "," --format "tshp" swift:bucket
     2016-06-25 18:55:41,60295,7908e352297f0f530b84a756f188baa3,bevajer5jef
@@ -121,9 +121,9 @@ Eg
     2016-06-25 18:55:40,37600,8fd37c3810dd660778137ac3a66cc06d,fubuwic
 
 You can output in CSV standard format.  This will escape things in "
-if they contain ,
+if they contain,
 
-Eg
+E.g.
 
     $ rclone lsf --csv --files-only --format ps remote:path
     test.log,22355
@@ -138,7 +138,6 @@ those only (without traversing the whole directory structure):
 
     rclone lsf --absolute --files-only --max-age 1d /path/to/local > new_files
     rclone copy --files-from-raw new_files /path/to/local remote:path
-
 ` + lshelp.Help,
 	Run: func(command *cobra.Command, args []string) {
 		cmd.CheckArgs(1, 1, command, args)

@@ -43,8 +43,7 @@ This doesn't transfer files that are identical on src and dst, testing
 by size and modification time or MD5SUM.  It doesn't delete files from
 the destination.
 
-**Note**: Use the ` + "`-P`" + `/` + "`--progress`" + ` flag to view real-time transfer statistics
-`,
+**Note**: Use the ` + "`-P`" + `/` + "`--progress`" + ` flag to view real-time transfer statistics`,
 	Run: func(command *cobra.Command, args []string) {
 		cmd.CheckArgs(2, 2, command, args)
 		fsrc, srcFileName, fdst, dstFileName := cmd.NewFsSrcDstFiles(args)

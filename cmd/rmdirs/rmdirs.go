@@ -34,8 +34,7 @@ empty directories in. For example the ` + "`delete`" + ` command will
 delete files but leave the directory structure (unless used with
 option ` + "`--rmdirs`" + `).
 
-To delete a path and any objects in it, use ` + "`purge`" + ` command.
-`,
+To delete a path and any objects in it, use ` + "`purge`" + ` command.`,
 	Run: func(command *cobra.Command, args []string) {
 		cmd.CheckArgs(1, 1, command, args)
 		fdst := cmd.NewFsDir(args)

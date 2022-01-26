@@ -21,8 +21,7 @@ has any objects in it, not even empty subdirectories. Use
 command ` + "`rmdirs`" + ` (or ` + "`delete`" + ` with option ` + "`--rmdirs`" + `)
 to do that.
 
-To delete a path and any objects in it, use ` + "`purge`" + ` command.
-`,
+To delete a path and any objects in it, use ` + "`purge`" + ` command.`,
 	Run: func(command *cobra.Command, args []string) {
 		cmd.CheckArgs(1, 1, command, args)
 		fdst := cmd.NewFsDir(args)

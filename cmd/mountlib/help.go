@@ -324,39 +324,35 @@ helper you should symlink rclone binary to |/sbin/mount.rclone| and optionally
 rclone will detect it and translate command-line arguments appropriately.
 
 Now you can run classic mounts like this:
-|||
-mount sftp1:subdir /mnt/data -t rclone -o vfs_cache_mode=writes,sftp_key_file=/path/to/pem
-|||
+
+    mount sftp1:subdir /mnt/data -t rclone -o vfs_cache_mode=writes,sftp_key_file=/path/to/pem
 
 or create systemd mount units:
-|||
-# /etc/systemd/system/mnt-data.mount
-[Unit]
-After=network-online.target
-[Mount]
-Type=rclone
-What=sftp1:subdir
-Where=/mnt/data
-Options=rw,allow_other,args2env,vfs-cache-mode=writes,config=/etc/rclone.conf,cache-dir=/var/rclone
-|||
+
+    # /etc/systemd/system/mnt-data.mount
+    [Unit]
+    After=network-online.target
+    [Mount]
+    Type=rclone
+    What=sftp1:subdir
+    Where=/mnt/data
+    Options=rw,allow_other,args2env,vfs-cache-mode=writes,config=/etc/rclone.conf,cache-dir=/var/rclone
 
 optionally accompanied by systemd automount unit
-|||
-# /etc/systemd/system/mnt-data.automount
-[Unit]
-After=network-online.target
-Before=remote-fs.target
-[Automount]
-Where=/mnt/data
-TimeoutIdleSec=600
-[Install]
-WantedBy=multi-user.target
-|||
+
+    # /etc/systemd/system/mnt-data.automount
+    [Unit]
+    After=network-online.target
+    Before=remote-fs.target
+    [Automount]
+    Where=/mnt/data
+    TimeoutIdleSec=600
+    [Install]
+    WantedBy=multi-user.target
 
 or add in |/etc/fstab| a line like
-|||
-sftp1:subdir /mnt/data rclone rw,noauto,nofail,_netdev,x-systemd.automount,args2env,vfs_cache_mode=writes,config=/etc/rclone.conf,cache_dir=/var/cache/rclone 0 0
-|||
+
+    sftp1:subdir /mnt/data rclone rw,noauto,nofail,_netdev,x-systemd.automount,args2env,vfs_cache_mode=writes,config=/etc/rclone.conf,cache_dir=/var/cache/rclone 0 0
 
 or use classic Automountd.
 Remember to provide explicit |config=...,cache-dir=...| as a workaround for

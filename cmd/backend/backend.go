@@ -55,8 +55,7 @@ Pass arguments to the backend by placing them on the end of the line
     rclone backend cleanup remote:path file1 file2 file3
 
 Note to run these commands on a running backend then see
-[backend/command](/rc/#backend-command) in the rc docs.
-`,
+[backend/command](/rc/#backend-command) in the rc docs.`,
 	RunE: func(command *cobra.Command, args []string) error {
 		cmd.CheckArgs(2, 1e6, command, args)
 		name, remote := args[0], args[1]
@@ -149,18 +148,17 @@ See [the "rclone backend" command](/commands/rclone_backend/) for more
 info on how to pass options and arguments.
 
 These can be run on a running backend using the rc command
-[backend/command](/rc/#backend-command).
-
-`, name)
+[backend/command](/rc/#backend-command).`, name)
+	fmt.Printf("\n")
 	for _, cmd := range cmds {
-		fmt.Printf("### %s\n\n", cmd.Name)
+		fmt.Printf("\n### %s\n\n", cmd.Name)
 		fmt.Printf("%s\n\n", cmd.Short)
-		fmt.Printf("    rclone backend %s remote: [options] [<arguments>+]\n\n", cmd.Name)
+		fmt.Printf("    rclone backend %s remote: [options] [<arguments>+]\n", cmd.Name)
 		if cmd.Long != "" {
-			fmt.Printf("%s\n\n", cmd.Long)
+			fmt.Printf("\n%s\n", cmd.Long)
 		}
 		if len(cmd.Opts) != 0 {
-			fmt.Printf("Options:\n\n")
+			fmt.Printf("\nOptions:\n\n")
 
 			ks := []string{}
 			for k := range cmd.Opts {
@@ -171,7 +169,6 @@ These can be run on a running backend using the rc command
 				v := cmd.Opts[k]
 				fmt.Printf("- %q: %s\n", k, v)
 			}
-			fmt.Printf("\n")
 		}
 	}
 	return nil

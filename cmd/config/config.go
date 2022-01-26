@@ -39,10 +39,10 @@ func init() {
 var configCommand = &cobra.Command{
 	Use:   "config",
 	Short: `Enter an interactive configuration session.`,
-	Long: `Enter an interactive configuration session where you can setup new
+	Long: `
+Enter an interactive configuration session where you can setup new
 remotes and manage existing ones. You may also set or remove a
-password to protect your configuration.
-`,
+password to protect your configuration.`,
 	RunE: func(command *cobra.Command, args []string) error {
 		cmd.CheckArgs(0, 0, command, args)
 		return config.EditConfig(context.Background())
@@ -146,31 +146,29 @@ it.
 
 This will look something like (some irrelevant detail removed):
 
-|||
-{
-    "State": "*oauth-islocal,teamdrive,,",
-    "Option": {
-        "Name": "config_is_local",
-        "Help": "Use auto config?\n * Say Y if not sure\n * Say N if you are working on a remote or headless machine\n",
-        "Default": true,
-        "Examples": [
-            {
-                "Value": "true",
-                "Help": "Yes"
-            },
-            {
-                "Value": "false",
-                "Help": "No"
-            }
-        ],
-        "Required": false,
-        "IsPassword": false,
-        "Type": "bool",
-        "Exclusive": true,
-    },
-    "Error": "",
-}
-|||
+    {
+        "State": "*oauth-islocal,teamdrive,,",
+        "Option": {
+            "Name": "config_is_local",
+            "Help": "Use auto config?\n * Say Y if not sure\n * Say N if you are working on a remote or headless machine\n",
+            "Default": true,
+            "Examples": [
+                {
+                    "Value": "true",
+                    "Help": "Yes"
+                },
+                {
+                    "Value": "false",
+                    "Help": "No"
+                }
+            ],
+            "Required": false,
+            "IsPassword": false,
+            "Type": "bool",
+            "Exclusive": true,
+        },
+        "Error": "",
+    }
 
 The format of |Option| is the same as returned by |rclone config
 providers|. The question should be asked to the user and returned to
@@ -184,7 +182,7 @@ The keys of |Option| are used as follows:
 - |Examples| - the user should be able to choose one of these
 - |Required| - the value should be non-empty
 - |IsPassword| - the value is a password and should be edited as such
-- |Type| - type of value, eg |bool|, |string|, |int| and others
+- |Type| - type of value, e.g. |bool|, |string|, |int| and others
 - |Exclusive| - if set no free-form entry allowed only the |Examples|
 - Irrelevant keys |Provider|, |ShortOpt|, |Hide|, |NoPrefix|, |Advanced|
 
@@ -207,6 +205,7 @@ defaults for questions as usual.
 Note that |bin/config.py| in the rclone source implements this protocol
 as a readable demonstration.
 `, "|", "`")
+
 var configCreateCommand = &cobra.Command{
 	Use:   "create name type [key value]*",
 	Short: `Create a new remote with name, type and options.`,
@@ -323,8 +322,7 @@ For example, to set password of a remote of name myremote you would do:
     rclone config password myremote fieldname=mypassword
 
 This command is obsolete now that "config update" and "config create"
-both support obscuring passwords directly.
-`, "|", "`"),
+both support obscuring passwords directly.`, "|", "`"),
 	RunE: func(command *cobra.Command, args []string) error {
 		cmd.CheckArgs(1, 256, command, args)
 		in, err := argsToMap(args[1:])
@@ -370,8 +368,7 @@ This reconnects remote: passed in to the cloud storage system.
 
 To disconnect the remote use "rclone config disconnect".
 
-This normally means going through the interactive oauth flow again.
-`,
+This normally means going through the interactive oauth flow again.`,
 	RunE: func(command *cobra.Command, args []string) error {
 		ctx := context.Background()
 		cmd.CheckArgs(1, 1, command, args)
@@ -391,8 +388,7 @@ This disconnects the remote: passed in to the cloud storage system.
 
 This normally means revoking the oauth token.
 
-To reconnect use "rclone config reconnect".
-`,
+To reconnect use "rclone config reconnect".`,
 	RunE: func(command *cobra.Command, args []string) error {
 		cmd.CheckArgs(1, 1, command, args)
 		f := cmd.NewFsSrc(args)
@@ -421,8 +417,7 @@ var configUserInfoCommand = &cobra.Command{
 	Short: `Prints info about logged in user of remote.`,
 	Long: `
 This prints the details of the person logged in to the cloud storage
-system.
-`,
+system.`,
 	RunE: func(command *cobra.Command, args []string) error {
 		cmd.CheckArgs(1, 1, command, args)
 		f := cmd.NewFsSrc(args)

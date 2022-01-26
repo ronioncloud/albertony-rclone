@@ -12,9 +12,8 @@ docker daemon and runs the corresponding code when necessary.
 Docker plugins can run as a managed plugin under control of the docker daemon
 or as an independent native service. For testing, you can just run it directly
 from the command line, for example:
-|||
-sudo rclone serve docker --base-dir /tmp/rclone-volumes --socket-addr localhost:8787 -vv
-|||
+
+    sudo rclone serve docker --base-dir /tmp/rclone-volumes --socket-addr localhost:8787 -vv
 
 Running |rclone serve docker| will create the said socket, listening for
 commands from Docker to create the necessary Volumes. Normally you need not

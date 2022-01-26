@@ -27,9 +27,7 @@ Rclone syncs files to and from cloud storage providers as well as
 mounting them, listing them in lots of different ways.
 
 See the home page (https://rclone.org/) for installation, usage,
-documentation, changelog and configuration walkthroughs.
-
-`,
+documentation, changelog and configuration walkthroughs.`,
 	PersistentPostRun: func(cmd *cobra.Command, args []string) {
 		fs.Debugf("rclone", "Version %q finishing with parameters %q", fs.Version, os.Args)
 		atexit.Run()
@@ -316,7 +314,7 @@ func showBackend(name string) {
 			continue
 		}
 		fmt.Printf("### %s options\n\n", strings.Title(optionsType))
-		fmt.Printf("Here are the %s options specific to %s (%s).\n\n", optionsType, backend.Name, backend.Description)
+		fmt.Printf("Here are the %s options specific to %s (%s).\n", optionsType, backend.Name, backend.Description)
 		optionsType = "advanced"
 		for _, opt := range opts {
 			done[opt.Name] = struct{}{}
@@ -324,7 +322,7 @@ func showBackend(name string) {
 			if opt.ShortOpt != "" {
 				shortOpt = fmt.Sprintf(" / -%s", opt.ShortOpt)
 			}
-			fmt.Printf("#### --%s%s\n\n", opt.FlagName(backend.Prefix), shortOpt)
+			fmt.Printf("\n#### --%s%s\n\n", opt.FlagName(backend.Prefix), shortOpt)
 			fmt.Printf("%s\n\n", opt.Help)
 			if opt.IsPassword {
 				fmt.Printf("**NB** Input to this must be obscured - see [rclone obscure](/commands/rclone_obscure/).\n\n")
@@ -342,7 +340,6 @@ func showBackend(name string) {
 					}
 				}
 			}
-			fmt.Printf("\n")
 		}
 	}
 }

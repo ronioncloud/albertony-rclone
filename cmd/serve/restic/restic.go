@@ -50,7 +50,8 @@ func init() {
 var Command = &cobra.Command{
 	Use:   "restic remote:path",
 	Short: `Serve the remote for restic's REST API.`,
-	Long: `rclone serve restic implements restic's REST backend API
+	Long: `
+rclone serve restic implements restic's REST backend API
 over HTTP.  This allows restic to use rclone as a data storage
 mechanism for cloud providers that restic does not support directly.
 
@@ -120,7 +121,7 @@ For example:
 
 Note that you can use the endpoint to host multiple repositories.  Do
 this by adding a directory name or path after the URL.  Note that
-these **must** end with /.  Eg
+these **must** end with /. E.g.
 
     $ export RESTIC_REPOSITORY=rest:http://localhost:8080/user1repo/
     # backup user1 stuff

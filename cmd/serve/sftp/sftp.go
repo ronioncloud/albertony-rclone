@@ -62,7 +62,8 @@ func init() {
 var Command = &cobra.Command{
 	Use:   "sftp remote:path",
 	Short: `Serve the remote over SFTP.`,
-	Long: `rclone serve sftp implements an SFTP server to serve the remote
+	Long: `
+rclone serve sftp implements an SFTP server to serve the remote
 over SFTP.  This can be used with an SFTP client or you can make a
 remote of type sftp to use with it.
 
@@ -110,7 +111,6 @@ The "restrict" in authorized_keys prevents SHA1SUMs and MD5SUMs from beeing
 used. Omitting "restrict" and using --sftp-path-override to enable
 checksumming is possible but less secure and you could use the SFTP server
 provided by OpenSSH in this case.
-
 ` + vfs.Help + proxy.Help,
 	Run: func(command *cobra.Command, args []string) {
 		var f fs.Fs

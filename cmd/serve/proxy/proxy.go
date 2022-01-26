@@ -55,35 +55,29 @@ And it may have this parameter
 If password authentication was used by the client, input to the proxy
 process (on STDIN) would look similar to this:
 
-|||
-{
-	"user": "me",
-	"pass": "mypassword"
-}
-|||
+    {
+        "user": "me",
+        "pass": "mypassword"
+    }
 
 If public-key authentication was used by the client, input to the
 proxy process (on STDIN) would look similar to this:
 
-|||
-{
-	"user": "me",
-	"public_key": "AAAAB3NzaC1yc2EAAAADAQABAAABAQDuwESFdAe14hVS6omeyX7edc...JQdf"
-}
-|||
+    {
+        "user": "me",
+        "public_key": "AAAAB3NzaC1yc2EAAAADAQABAAABAQDuwESFdAe14hVS6omeyX7edc...JQdf"
+    }
 
 And as an example return this on STDOUT
 
-|||
-{
-	"type": "sftp",
-	"_root": "",
-	"_obscure": "pass",
-	"user": "me",
-	"pass": "mypassword",
-	"host": "sftp.example.com"
-}
-|||
+    {
+        "type": "sftp",
+        "_root": "",
+        "_obscure": "pass",
+        "user": "me",
+        "pass": "mypassword",
+        "host": "sftp.example.com"
+    }
 
 This would mean that an SFTP backend would be created on the fly for
 the |user| and |pass|/|public_key| returned in the output to the host given.  Note
@@ -103,7 +97,7 @@ password or public-key is changed the cache will need to expire (which takes 5 m
 before it takes effect.
 
 This can be used to build general purpose proxies to any kind of
-backend that rclone supports.  
+backend that rclone supports.
 `, "|", "`", -1)
 
 // Options is options for creating the proxy

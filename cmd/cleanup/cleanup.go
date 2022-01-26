@@ -17,8 +17,7 @@ var commandDefinition = &cobra.Command{
 	Short: `Clean up the remote if possible.`,
 	Long: `
 Clean up the remote if possible.  Empty the trash or delete old file
-versions. Not supported by all remotes.
-`,
+versions. Not supported by all remotes.`,
 	Run: func(command *cobra.Command, args []string) {
 		cmd.CheckArgs(1, 1, command, args)
 		fsrc := cmd.NewFsSrc(args)

@@ -31,8 +31,7 @@ hashed locally enabling MD5 for any remote.
 This command can also hash data received on standard input (stdin),
 by not passing a remote:path, or by passing a hyphen as remote:path
 when there is data to read (if not, the hypen will be treated literaly,
-as a relative path).
-`,
+as a relative path).`,
 	RunE: func(command *cobra.Command, args []string) error {
 		cmd.CheckArgs(0, 1, command, args)
 		if found, err := hashsum.CreateFromStdinArg(hash.MD5, args, 0); found {

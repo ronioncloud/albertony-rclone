@@ -50,8 +50,8 @@ That reads "delete everything with a minimum size of 100 MiB", hence
 delete all files bigger than 100 MiB.
 
 **Important**: Since this can cause data loss, test first with the
-|--dry-run| or the |--interactive|/|-i| flag.
-`, "|", "`"),
+|--dry-run| or the |--interactive|/|-i| flag.`,
+		"|", "`"),
 	Run: func(command *cobra.Command, args []string) {
 		cmd.CheckArgs(1, 1, command, args)
 		fsrc := cmd.NewFsSrc(args)

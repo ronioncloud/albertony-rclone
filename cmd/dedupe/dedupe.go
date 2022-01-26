@@ -27,7 +27,6 @@ var commandDefinition = &cobra.Command{
 	Use:   "dedupe [mode] remote:path",
 	Short: `Interactively find duplicate filenames and delete/rename them.`,
 	Long: `
-
 By default ` + "`dedupe`" + ` interactively finds files with duplicate
 names and offers to delete all but one or rename them to be
 different. This is known as deduping by name.
@@ -116,15 +115,15 @@ The result being
 
 Dedupe can be run non interactively using the ` + "`" + `--dedupe-mode` + "`" + ` flag or by using an extra parameter with the same value
 
-  * ` + "`" + `--dedupe-mode interactive` + "`" + ` - interactive as above.
-  * ` + "`" + `--dedupe-mode skip` + "`" + ` - removes identical files then skips anything left.
-  * ` + "`" + `--dedupe-mode first` + "`" + ` - removes identical files then keeps the first one.
-  * ` + "`" + `--dedupe-mode newest` + "`" + ` - removes identical files then keeps the newest one.
-  * ` + "`" + `--dedupe-mode oldest` + "`" + ` - removes identical files then keeps the oldest one.
-  * ` + "`" + `--dedupe-mode largest` + "`" + ` - removes identical files then keeps the largest one.
-  * ` + "`" + `--dedupe-mode smallest` + "`" + ` - removes identical files then keeps the smallest one.
-  * ` + "`" + `--dedupe-mode rename` + "`" + ` - removes identical files then renames the rest to be different.
-  * ` + "`" + `--dedupe-mode list` + "`" + ` - lists duplicate dirs and files only and changes nothing.
+- ` + "`" + `--dedupe-mode interactive` + "`" + ` - interactive as above.
+- ` + "`" + `--dedupe-mode skip` + "`" + ` - removes identical files then skips anything left.
+- ` + "`" + `--dedupe-mode first` + "`" + ` - removes identical files then keeps the first one.
+- ` + "`" + `--dedupe-mode newest` + "`" + ` - removes identical files then keeps the newest one.
+- ` + "`" + `--dedupe-mode oldest` + "`" + ` - removes identical files then keeps the oldest one.
+- ` + "`" + `--dedupe-mode largest` + "`" + ` - removes identical files then keeps the largest one.
+- ` + "`" + `--dedupe-mode smallest` + "`" + ` - removes identical files then keeps the smallest one.
+- ` + "`" + `--dedupe-mode rename` + "`" + ` - removes identical files then renames the rest to be different.
+- ` + "`" + `--dedupe-mode list` + "`" + ` - lists duplicate dirs and files only and changes nothing.
 
 For example, to rename all the identically named photos in your Google Photos directory, do
 
@@ -132,8 +131,7 @@ For example, to rename all the identically named photos in your Google Photos di
 
 Or
 
-    rclone dedupe rename "drive:Google Photos"
-`,
+    rclone dedupe rename "drive:Google Photos"`,
 	Run: func(command *cobra.Command, args []string) {
 		cmd.CheckArgs(1, 2, command, args)
 		if len(args) > 1 {

@@ -19,8 +19,7 @@ var commandDefinition = &cobra.Command{
 	Long: `
 Remove a single file from remote.  Unlike ` + "`" + `delete` + "`" + ` it cannot be used to
 remove a directory and it doesn't obey include/exclude filters - if the specified file exists,
-it will always be removed.
-`,
+it will always be removed.`,
 	Run: func(command *cobra.Command, args []string) {
 		cmd.CheckArgs(1, 1, command, args)
 		fs, fileName := cmd.NewFsFile(args[0])

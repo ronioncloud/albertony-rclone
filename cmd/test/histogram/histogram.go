@@ -21,7 +21,8 @@ func init() {
 var commandDefinition = &cobra.Command{
 	Use:   "histogram [remote:path]",
 	Short: `Makes a histogram of file name characters.`,
-	Long: `This command outputs JSON which shows the histogram of characters used
+	Long: `
+This command outputs JSON which shows the histogram of characters used
 in filenames in the remote:path specified.
 
 The data doesn't contain any identifying information but is useful for

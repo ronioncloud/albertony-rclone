@@ -47,7 +47,8 @@ func init() {
 var Command = &cobra.Command{
 	Use:   "http remote:path",
 	Short: `Serve the remote over HTTP.`,
-	Long: `rclone serve http implements a basic web server to serve the remote
+	Long: `
+rclone serve http implements a basic web server to serve the remote
 over HTTP.  This can be viewed in a web browser or you can make a
 remote of type http read from it.
 

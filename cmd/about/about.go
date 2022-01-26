@@ -59,12 +59,12 @@ E.g. Typical output from ` + "`rclone about remote:`" + ` is:
 
 Where the fields are:
 
-  * Total: Total size available.
-  * Used: Total size used.
-  * Free: Total space available to this user.
-  * Trashed: Total space used by trash.
-  * Other: Total amount in other storage (e.g. Gmail, Google Photos).
-  * Objects: Total number of objects in the storage.
+- Total: Total size available.
+- Used: Total size used.
+- Free: Total space available to this user.
+- Trashed: Total space used by trash.
+- Other: Total amount in other storage (e.g. Gmail, Google Photos).
+- Objects: Total number of objects in the storage.
 
 All sizes are in number of bytes.
 
@@ -90,8 +90,7 @@ Not all backends print all fields. Information is not included if it is not
 provided by a backend. Where the value is unlimited it is omitted.
 
 Some backends does not support the ` + "`rclone about`" + ` command at all,
-see complete list in [documentation](https://rclone.org/overview/#optional-features).
-`,
+see complete list in [documentation](https://rclone.org/overview/#optional-features).`,
 	Run: func(command *cobra.Command, args []string) {
 		cmd.CheckArgs(1, 1, command, args)
 		f := cmd.NewFsSrc(args)

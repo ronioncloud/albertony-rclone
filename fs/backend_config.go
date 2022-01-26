@@ -30,7 +30,7 @@ var ConfigOAuth func(ctx context.Context, name string, m configmap.Mapper, ri *R
 // ConfigIn is passed to the Config function for an Fs
 //
 // The interactive config system for backends is state based. This is
-// so that different frontends to the config can be attached, eg over
+// so that different frontends to the config can be attached, e.g. over
 // the API or web page.
 //
 // Each call to the config system supplies ConfigIn which tells the

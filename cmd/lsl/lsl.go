@@ -21,14 +21,13 @@ var commandDefinition = &cobra.Command{
 Lists the objects in the source path to standard output in a human
 readable format with modification time, size and path. Recurses by default.
 
-Eg
+E.g.
 
     $ rclone lsl swift:bucket
         60295 2016-06-25 18:55:41.062626927 bevajer5jef
         90613 2016-06-25 18:55:43.302607074 canole
         94467 2016-06-25 18:55:43.046609333 diwogej7
         37600 2016-06-25 18:55:40.814629136 fubuwic
-
 ` + lshelp.Help,
 	Run: func(command *cobra.Command, args []string) {
 		cmd.CheckArgs(1, 1, command, args)

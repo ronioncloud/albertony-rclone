@@ -34,13 +34,13 @@ func Fingerprint(ctx context.Context, o ObjectInfo, fast bool) string {
 	// If !fast (slow) do the operation or if !OpIsSlow ==
 	// OpIsFast do the operation.
 	//
-	// Eg don't do this for S3 where modtimes are expensive
+	// E.g. don't do this for S3 where modtimes are expensive
 	if !fast || !features.SlowModTime {
 		if f.Precision() != ModTimeNotSupported {
 			fmt.Fprintf(&out, ",%v", o.ModTime(ctx).UTC())
 		}
 	}
-	// Eg don't do this for SFTP/local where hashes are expensive?
+	// E.g. don't do this for SFTP/local where hashes are expensive?
 	if !fast || !features.SlowHash {
 		hashType := f.Hashes().GetOne()
 		if hashType != hash.None {

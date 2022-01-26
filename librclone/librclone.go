@@ -67,7 +67,7 @@ type RcloneRPCResult struct { //nolint:deadcode
 // and the output is (output, status). This is an exported interface
 // to the rclone API as described in https://rclone.org/rc/
 //
-//   method is a string, eg "operations/list"
+//   method is a string, e.g. "operations/list"
 //   input should be a string with a serialized JSON object
 //   result.Output will be returned as a string with a serialized JSON object
 //   result.Status is a HTTP status return (200=OK anything else fail)

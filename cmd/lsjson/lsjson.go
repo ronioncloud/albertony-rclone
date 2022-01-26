@@ -37,7 +37,8 @@ func init() {
 var commandDefinition = &cobra.Command{
 	Use:   "lsjson remote:path",
 	Short: `List directories and objects in the path in JSON format.`,
-	Long: `List directories and objects in the path in JSON format.
+	Long: `
+List directories and objects in the path in JSON format.
 
 The output is an array of Items, where each Item looks like this
 

@@ -62,7 +62,6 @@ supported hash on the backend or you can use a named hash such as
 "MD5" or "SHA-1".
 
 Use "rclone hashsum" to see the full list.
-
 ` + httplib.Help + vfs.Help + proxy.Help,
 	RunE: func(command *cobra.Command, args []string) error {
 		var f fs.Fs

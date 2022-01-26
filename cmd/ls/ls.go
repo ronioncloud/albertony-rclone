@@ -21,14 +21,13 @@ var commandDefinition = &cobra.Command{
 Lists the objects in the source path to standard output in a human
 readable format with size and path. Recurses by default.
 
-Eg
+E.g.
 
     $ rclone ls swift:bucket
         60295 bevajer5jef
         90613 canole
         94467 diwogej7
         37600 fubuwic
-
 ` + lshelp.Help,
 	Run: func(command *cobra.Command, args []string) {
 		cmd.CheckArgs(1, 1, command, args)

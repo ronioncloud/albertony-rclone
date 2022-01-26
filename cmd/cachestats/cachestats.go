@@ -18,11 +18,9 @@ func init() {
 }
 
 var commandDefinition = &cobra.Command{
-	Use:   "cachestats source:",
-	Short: `Print cache stats for a remote`,
-	Long: `
-Print cache stats for a remote in JSON format
-`,
+	Use:    "cachestats source:",
+	Short:  `Print cache stats for a remote`,
+	Long:   "Print cache stats for a remote in JSON format",
 	Hidden: true,
 	Run: func(command *cobra.Command, args []string) {
 		cmd.CheckArgs(1, 1, command, args)

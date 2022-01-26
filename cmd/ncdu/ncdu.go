@@ -44,15 +44,14 @@ structure as it goes along.
 
 Here are the keys - press '?' to toggle the help on and off
 
-    ` + strings.Join(helpText()[1:], "\n    ") + `
+   ` + strings.Join(helpText()[1:], "\n   ") + `
 
 This an homage to the [ncdu tool](https://dev.yorhel.nl/ncdu) but for
 rclone remotes.  It is missing lots of features at the moment
 but is useful as it stands.
 
 Note that it might take some time to delete big files/folders. The
-UI won't respond in the meantime since the deletion is done synchronously.
-`,
+UI won't respond in the meantime since the deletion is done synchronously.`,
 	Run: func(command *cobra.Command, args []string) {
 		cmd.CheckArgs(1, 1, command, args)
 		fsrc := cmd.NewFsSrc(args)

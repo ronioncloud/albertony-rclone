@@ -31,8 +31,7 @@ them directly
 If you supply a command line argument the script will be written
 there.
 
-If output_file is "-", then the output will be written to stdout.
-`,
+If output_file is "-", then the output will be written to stdout.`,
 	Run: func(command *cobra.Command, args []string) {
 		cmd.CheckArgs(0, 1, command, args)
 		out := "/etc/bash_completion.d/rclone"

@@ -49,7 +49,6 @@ var commandDefinition = &cobra.Command{
 	Use:   "rc commands parameter",
 	Short: `Run a command against a running rclone.`,
 	Long: `
-
 This runs a command against a running rclone.  Use the --url flag to
 specify an non default URL to connect on.  This can be either a
 ":port" which is taken to mean "http://localhost:port" or a
@@ -78,7 +77,6 @@ many times as required. This is useful for rc commands which take the
 Will place this in the "opt" value
 
     {"key":"value", "key2","")
-
 
 The -a/--arg option can be used to set strings in the "arg" value. It
 can be repeated as many times as required. This is useful for rc

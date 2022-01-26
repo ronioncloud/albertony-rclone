@@ -75,8 +75,8 @@ recently very efficiently like this:
 
 **Note**: Use the |-P|/|--progress| flag to view real-time transfer statistics.
 
-**Note**: Use the |--dry-run| or the |--interactive|/|-i| flag to test without copying anything.
-`, "|", "`"),
+**Note**: Use the |--dry-run| or the |--interactive|/|-i| flag to test without copying anything.`,
+		"|", "`"),
 	Run: func(command *cobra.Command, args []string) {
 
 		cmd.CheckArgs(2, 2, command, args)

@@ -85,11 +85,11 @@ var commandDefinition = &cobra.Command{
 	Short: `Produces a hashsum file for all the objects in the path.`,
 	Long: `
 Produces a hash file for all the objects in the path using the hash
-named.  The output is in the same format as the standard
+named. The output is in the same format as the standard
 md5sum/sha1sum tool.
 
-By default, the hash is requested from the remote.  If the hash is
-not supported by the remote, no hash will be returned.  With the
+By default, the hash is requested from the remote. If the hash is
+not supported by the remote, no hash will be returned. With the
 download flag, the file will be downloaded from the remote and
 hashed locally enabling any hash for any remote.
 
@@ -106,8 +106,7 @@ Then
 
     $ rclone hashsum MD5 remote:path
 
-Note that hash names are case insensitive and values are output in lower case.
-`,
+Note that hash names are case insensitive and values are output in lower case.`,
 	RunE: func(command *cobra.Command, args []string) error {
 		cmd.CheckArgs(0, 2, command, args)
 		if len(args) == 0 {
