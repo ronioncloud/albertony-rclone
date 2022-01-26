@@ -135,7 +135,7 @@ length and if it's case sensitve.`,
 				},
 				{
 					Value: "base32768",
-					Help:  "Encode using base32768. Suitable if your remote counts UTF-16 or\nUnicode codepoint instead of UTF-8 byte length. (Eg. Onedrive)",
+					Help:  "Encode using base32768. Suitable if your remote counts UTF-16 or\nUnicode codepoint instead of UTF-8 byte length. (E.g. Onedrive)",
 				},
 			},
 			Advanced: true,
@@ -789,8 +789,7 @@ strings of the encoded results.
 Usage Example:
 
     rclone backend encode crypt: file1 [file2...]
-    rclone rc backend/command command=encode fs=crypt: file1 [file2...]
-`,
+    rclone rc backend/command command=encode fs=crypt: file1 [file2...]`,
 	},
 	{
 		Name:  "decode",
@@ -802,8 +801,7 @@ inputs are invalid.
 Usage Example:
 
     rclone backend decode crypt: encryptedfile1 [encryptedfile2...]
-    rclone rc backend/command command=decode fs=crypt: encryptedfile1 [encryptedfile2...]
-`,
+    rclone rc backend/command command=decode fs=crypt: encryptedfile1 [encryptedfile2...]`,
 	},
 }
 

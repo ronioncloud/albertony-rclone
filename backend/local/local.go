@@ -83,8 +83,7 @@ Rclone used to use the Stat size of links as the link size, but this fails in qu
 - On some virtual filesystems (such ash LucidLink)
 - Android
 
-So rclone now always reads the link.
-`,
+So rclone now always reads the link.`,
 			Default:  false,
 			Advanced: true,
 		}, {
@@ -98,7 +97,7 @@ Rclone does not normally touch the encoding of file names it reads from
 the file system.
 
 This can be useful when using macOS as it normally provides decomposed (NFD)
-unicode which in some language (eg Korean) doesn't display properly on
+unicode which in some language (e.g. Korean) doesn't display properly on
 some OSes.
 
 Note that rclone compares filenames with unicode normalization in the sync
@@ -130,9 +129,7 @@ time we:
 
 - Only transfer the size that stat gave
 - Only checksum the size that stat gave
-- Don't update the stat info for the file
-
-`,
+- Don't update the stat info for the file`,
 			Default:  false,
 			Advanced: true,
 		}, {

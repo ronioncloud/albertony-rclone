@@ -274,8 +274,7 @@ func init() {
 Leave blank normally.
 
 Fill in to access "Computers" folders (see docs), or for rclone to use
-a non root folder as its starting point.
-`,
+a non root folder as its starting point.`,
 		}, {
 			Name: "service_account_file",
 			Help: "Service Account Credentials JSON file path.\n\nLeave blank normally.\nNeeded only if you want use SA instead of interactive login." + env.ShellExpandHelp,
@@ -499,9 +498,7 @@ HTTP/2.  HTTP/2 is therefore disabled by default for the drive backend
 but can be re-enabled here.  When the issue is solved this flag will
 be removed.
 
-See: https://github.com/rclone/rclone/issues/3631
-
-`,
+See: https://github.com/rclone/rclone/issues/3631`,
 			Advanced: true,
 		}, {
 			Name:    "stop_on_upload_limit",
@@ -517,8 +514,7 @@ the in-progress sync.
 Note that this detection is relying on error message strings which
 Google don't document so it may break in the future.
 
-See: https://github.com/rclone/rclone/issues/3857
-`,
+See: https://github.com/rclone/rclone/issues/3857`,
 			Advanced: true,
 		}, {
 			Name:    "stop_on_download_limit",
@@ -532,8 +528,7 @@ this flag is set it causes these errors to be fatal.  These will stop
 the in-progress sync.
 
 Note that this detection is relying on error message strings which
-Google don't document so it may break in the future.
-`,
+Google don't document so it may break in the future.`,
 			Advanced: true,
 		}, {
 			Name: "skip_shortcuts",
@@ -541,8 +536,7 @@ Google don't document so it may break in the future.
 
 Normally rclone dereferences shortcut files making them appear as if
 they are the original file (see [the shortcuts section](#shortcuts)).
-If this flag is set then rclone will ignore shortcut files completely.
-`,
+If this flag is set then rclone will ignore shortcut files completely.`,
 			Advanced: true,
 			Default:  false,
 		}, {
@@ -3115,8 +3109,7 @@ var commandHelp = []fs.CommandHelp{{
 Usage Examples:
 
     rclone backend get drive: [-o service_account_file] [-o chunk_size]
-    rclone rc backend/command command=get fs=drive: [-o service_account_file] [-o chunk_size]
-`,
+    rclone rc backend/command command=get fs=drive: [-o service_account_file] [-o chunk_size]`,
 	Opts: map[string]string{
 		"chunk_size":           "show the current upload chunk size",
 		"service_account_file": "show the current service account file",
@@ -3129,8 +3122,7 @@ Usage Examples:
 Usage Examples:
 
     rclone backend set drive: [-o service_account_file=sa.json] [-o chunk_size=67108864]
-    rclone rc backend/command command=set fs=drive: [-o service_account_file=sa.json] [-o chunk_size=67108864]
-`,
+    rclone rc backend/command command=set fs=drive: [-o service_account_file=sa.json] [-o chunk_size=67108864]`,
 	Opts: map[string]string{
 		"chunk_size":           "update the current upload chunk size",
 		"service_account_file": "update the current service account file",
@@ -3153,8 +3145,7 @@ from "drive:"
 In the second example this creates a shortcut from the "source_item"
 relative to "drive:" to the "destination_shortcut" relative to
 "drive2:". This may fail with a permission error if the user
-authenticated with "drive2:" can't read files from "drive:".
-`,
+authenticated with "drive2:" can't read files from "drive:".`,
 	Opts: map[string]string{
 		"target": "optional target remote for the shortcut destination",
 	},
@@ -3197,9 +3188,7 @@ drives found.
 
 Adding this to the rclone config file will cause those team drives to
 be accessible with the aliases shown. This may require manual editing
-of the names.
-
-`,
+of the names.`,
 }, {
 	Name:  "untrash",
 	Short: "Untrash files and directories",
@@ -3221,8 +3210,7 @@ Result:
     {
         "Untrashed": 17,
         "Errors": 0
-    }
-`,
+    }`,
 }, {
 	Name:  "copyid",
 	Short: "Copy files by ID",
@@ -3244,8 +3232,7 @@ component will be used as the file name.
 If the destination is a drive backend then server-side copying will be
 attempted if possible.
 
-Use the -i flag to see what would be copied before copying.
-`,
+Use the -i flag to see what would be copied before copying.`,
 }}
 
 // Command the backend to run a named command

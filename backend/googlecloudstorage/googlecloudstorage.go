@@ -155,8 +155,7 @@ When it is set, rclone:
 - ignores ACLs set on objects
 - creates buckets with Bucket Policy Only set
 
-Docs: https://cloud.google.com/storage/docs/bucket-policy-only
-`,
+Docs: https://cloud.google.com/storage/docs/bucket-policy-only`,
 			Default: false,
 		}, {
 			Name: "location",

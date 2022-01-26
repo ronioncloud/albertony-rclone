@@ -83,8 +83,7 @@ func init() {
 
 Leave blank normally.
 
-Fill in to make rclone start with directory of a given ID.
-`,
+Fill in to make rclone start with directory of a given ID.`,
 		}, {
 			Name: "permanent_token",
 			Help: `Permanent Authentication Token.
@@ -96,8 +95,7 @@ to create one.
 
 These tokens are normally valid for several years.
 
-For more info see: https://docs.storagemadeeasy.com/organisationcloud/api-tokens
-`,
+For more info see: https://docs.storagemadeeasy.com/organisationcloud/api-tokens`,
 		}, {
 			Name: "token",
 			Help: `Session Token.
@@ -105,22 +103,19 @@ For more info see: https://docs.storagemadeeasy.com/organisationcloud/api-tokens
 This is a session token which rclone caches in the config file. It is
 usually valid for 1 hour.
 
-Don't set this value - rclone will set it automatically.
-`,
+Don't set this value - rclone will set it automatically.`,
 			Advanced: true,
 		}, {
 			Name: "token_expiry",
 			Help: `Token expiry time.
 
-Don't set this value - rclone will set it automatically.
-`,
+Don't set this value - rclone will set it automatically.`,
 			Advanced: true,
 		}, {
 			Name: "version",
 			Help: `Version read from the file fabric.
 
-Don't set this value - rclone will set it automatically.
-`,
+Don't set this value - rclone will set it automatically.`,
 			Advanced: true,
 		}, {
 			Name:     config.ConfigEncoding,

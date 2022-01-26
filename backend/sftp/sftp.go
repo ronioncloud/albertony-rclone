@@ -142,8 +142,7 @@ Those algorithms are insecure and may allow plaintext data to be recovered by an
 
 If this is set and no password is supplied then rclone will:
 - ask for a password
-- not contact the ssh agent
-`,
+- not contact the ssh agent`,
 			Advanced: true,
 		}, {
 			Name:    "path_override",
@@ -204,8 +203,7 @@ Fstat instead of Stat which is called on an already open file handle.
 
 It has been found that this helps with IBM Sterling SFTP servers which have
 "extractability" level set to 1 which means only 1 file can be opened at
-any given time.
-`,
+any given time.`,
 			Advanced: true,
 		}, {
 			Name:    "disable_concurrent_reads",
@@ -223,8 +221,7 @@ have a server which returns
 
 Then you may need to enable this flag.
 
-If concurrent reads are disabled, the use_fstat option is ignored.
-`,
+If concurrent reads are disabled, the use_fstat option is ignored.`,
 			Advanced: true,
 		}, {
 			Name:    "disable_concurrent_writes",
@@ -234,8 +231,7 @@ If concurrent reads are disabled, the use_fstat option is ignored.
 Normally rclone uses concurrent writes to upload files. This improves
 the performance greatly, especially for distant servers.
 
-This option disables concurrent writes should that be necessary.
-`,
+This option disables concurrent writes should that be necessary.`,
 			Advanced: true,
 		}, {
 			Name:    "idle_timeout",
@@ -245,8 +241,7 @@ This option disables concurrent writes should that be necessary.
 If no connections have been returned to the connection pool in the time
 given, rclone will empty the connection pool.
 
-Set to 0 to keep connections indefinitely.
-`,
+Set to 0 to keep connections indefinitely.`,
 			Advanced: true,
 		}},
 	}

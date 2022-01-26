@@ -85,8 +85,7 @@ Leave blank normally. Needed only if you want to use a service principal instead
       --scopes "/subscriptions/<subscription>/resourceGroups/<resource-group>/providers/Microsoft.Storage/storageAccounts/<storage-account>/blobServices/default/containers/<container>" \
       > azure-principal.json
 
-See ["Create an Azure service principal"](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli) and ["Assign an Azure role for access to blob data"](https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad-rbac-cli) pages for more details.
-`,
+See ["Create an Azure service principal"](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli) and ["Assign an Azure role for access to blob data"](https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad-rbac-cli) pages for more details.`,
 		}, {
 			Name: "key",
 			Help: "Storage Account Key.\n\nLeave blank to use SAS URL or Emulator.",
@@ -202,8 +201,7 @@ With this flag set then before rclone attempts to overwrite an archive
 tier blob, it will delete the existing blob before uploading its
 replacement.  This has the potential for data loss if the upload fails
 (unlike updating a normal blob) and also may cost more since deleting
-archive tier blobs early may be chargable.
-`, errCantUpdateArchiveTierBlobs),
+archive tier blobs early may be chargable.`, errCantUpdateArchiveTierBlobs),
 			Advanced: true,
 		}, {
 			Name: "disable_checksum",

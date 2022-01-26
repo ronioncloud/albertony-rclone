@@ -200,8 +200,7 @@ Reducing this will reduce memory usage but decrease performance.`,
 			Help: `Endpoint for API calls.
 
 This is usually auto discovered as part of the oauth process, but can
-be set manually to something like: https://XXX.sharefile.com
-`,
+be set manually to something like: https://XXX.sharefile.com`,
 			Advanced: true,
 			Default:  "",
 		}, {

@@ -180,8 +180,7 @@ to approve during the OAuth flow.
 You will have to use your own App (setting your own client_id and
 client_secret) to use this option as currently rclone's default set of
 permissions doesn't include "members.read". This can be added once
-v1.55 or later is in use everywhere.
-`,
+v1.55 or later is in use everywhere.`,
 			Default:  "",
 			Advanced: true,
 		}, {
@@ -196,13 +195,13 @@ All other operations will be disabled.`,
 		}, {
 			Name: "shared_folders",
 			Help: `Instructs rclone to work on shared folders.
-			
+
 When this flag is used with no path only the List operation is supported and 
 all available shared folders will be listed. If you specify a path the first part 
 will be interpreted as the name of shared folder. Rclone will then try to mount this 
 shared to the root namespace. On success shared folder rclone proceeds normally. 
 The shared folder is now pretty much a normal folder and all normal operations 
-are supported. 
+are supported.
 
 Note that we don't unmount the shared folder afterwards so the 
 --dropbox-shared-folders can be omitted after the first use of a particular 
@@ -224,8 +223,7 @@ This has 3 possible values
 - async - batch upload and don't check completion
 
 Rclone will close any outstanding batches when it exits which may make
-a delay on quit.
-`,
+a delay on quit.`,
 			Default:  "sync",
 			Advanced: true,
 		}, {
@@ -246,8 +244,7 @@ a delay on quit.
 
 Setting this is a great idea if you are uploading lots of small files
 as it will make them a lot quicker. You can use --transfers 32 to
-maximise throughput.
-`,
+maximise throughput.`,
 			Default:  0,
 			Advanced: true,
 		}, {
@@ -262,8 +259,7 @@ default based on the batch_mode in use.
 
 - batch_mode: async - default batch_timeout is 500ms
 - batch_mode: sync - default batch_timeout is 10s
-- batch_mode: off - not in use
-`,
+- batch_mode: off - not in use`,
 			Default:  fs.Duration(0),
 			Advanced: true,
 		}, {
@@ -1709,7 +1705,7 @@ func (o *Object) uploadChunked(ctx context.Context, in0 io.Reader, commitInfo *f
 // maxFileNameLength runes.
 //
 // This checks the length as runes which isn't quite right as dropbox
-// seems to encode some symbols (eg ☺) as two "characters". This seems
+// seems to encode some symbols (e.g. ☺) as two "characters". This seems
 // like utf-16 except that ☺ doesn't need two characters in utf-16.
 //
 // Using runes instead of what dropbox is using will work for most

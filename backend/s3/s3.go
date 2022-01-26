@@ -214,7 +214,7 @@ func init() {
 			}},
 		}, {
 			Name:     "region",
-			Help:     "region - the location where your bucket will be created and your data stored.\n",
+			Help:     "region - the location where your bucket will be created and your data stored.",
 			Provider: "RackCorp",
 			Examples: []fs.OptionExample{{
 				Value: "global",
@@ -951,7 +951,7 @@ func init() {
 			}},
 		}, {
 			Name:     "location_constraint",
-			Help:     "Location constraint - the location where your bucket will be located and your data stored.\n",
+			Help:     "Location constraint - the location where your bucket will be located and your data stored.",
 			Provider: "RackCorp",
 			Examples: []fs.OptionExample{{
 				Value: "global",
@@ -1140,22 +1140,13 @@ isn't set then "acl" is used instead.`,
 			Help:     "If using SSE-C you must provide the secret encryption key used to encrypt/decrypt your data.",
 			Provider: "AWS,Ceph,Minio",
 			Advanced: true,
-			Examples: []fs.OptionExample{{
-				Value: "",
-				Help:  "None",
-			}},
 		}, {
 			Name: "sse_customer_key_md5",
 			Help: `If using SSE-C you may provide the secret encryption key MD5 checksum (optional).
 
-If you leave it blank, this is calculated automatically from the sse_customer_key provided.
-`,
+If you leave it blank, this is calculated automatically from the sse_customer_key provided.`,
 			Provider: "AWS,Ceph,Minio",
 			Advanced: true,
-			Examples: []fs.OptionExample{{
-				Value: "",
-				Help:  "None",
-			}},
 		}, {
 			Name:     "storage_class",
 			Help:     "The storage class to use when storing new objects in S3.",
@@ -1283,8 +1274,7 @@ This can be useful if a service does not support the AWS S3
 specification of 10,000 chunks.
 
 Rclone will automatically increase the chunk size when uploading a
-large file of a known size to stay below this number of chunks limit.
-`,
+large file of a known size to stay below this number of chunks limit.`,
 			Default:  maxUploadParts,
 			Advanced: true,
 		}, {
@@ -1318,8 +1308,7 @@ If this variable is empty rclone will look for the
 it will default to the current user's home directory.
 
     Linux/OSX: "$HOME/.aws/credentials"
-    Windows:   "%USERPROFILE%\.aws\credentials"
-`,
+    Windows:   "%USERPROFILE%\.aws\credentials"`,
 			Advanced: true,
 		}, {
 			Name: "profile",
@@ -1329,8 +1318,7 @@ If env_auth = true then rclone can use a shared credentials file. This
 variable controls which profile is used in that file.
 
 If empty it will default to the environment variable "AWS_PROFILE" or
-"default" if that environment variable is also not set.
-`,
+"default" if that environment variable is also not set.`,
 			Advanced: true,
 		}, {
 			Name:     "session_token",
@@ -1358,8 +1346,7 @@ docs](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html#access-bu
 for more info.
 
 Some providers (e.g. AWS, Aliyun OSS, Netease COS, or Tencent COS) require this set to
-false - rclone will do this automatically based on the provider
-setting.`,
+false - rclone will do this automatically based on the provider setting.`,
 			Default:  true,
 			Advanced: true,
 		}, {
@@ -1387,8 +1374,7 @@ See: [AWS S3 Transfer acceleration](https://docs.aws.amazon.com/AmazonS3/latest/
 
 It should be set to true for resuming uploads across different sessions.
 
-WARNING: Storing parts of an incomplete multipart upload counts towards space usage on S3 and will add additional costs if not cleaned up.
-`,
+WARNING: Storing parts of an incomplete multipart upload counts towards space usage on S3 and will add additional costs if not cleaned up.`,
 			Default:  false,
 			Advanced: true,
 		}, {
@@ -1398,8 +1384,7 @@ WARNING: Storing parts of an incomplete multipart upload counts towards space us
 This option is also known as "MaxKeys", "max-items", or "page-size" from the AWS S3 specification.
 Most services truncate the response list to 1000 objects even if requested more than that.
 In AWS S3 this is a global maximum and cannot be changed, see [AWS S3](https://docs.aws.amazon.com/cli/latest/reference/s3/ls.html).
-In Ceph, this can be increased with the "rgw list buckets max chunk" option.
-`,
+In Ceph, this can be increased with the "rgw list buckets max chunk" option.`,
 			Default:  1000,
 			Advanced: true,
 		}, {
@@ -1414,8 +1399,7 @@ much higher performance and should be used if at all possible.
 
 If set to the default, 0, rclone will guess according to the provider
 set which list objects method to call. If it guesses wrong, then it
-may be set manually here.
-`,
+may be set manually here.`,
 			Default:  0,
 			Advanced: true,
 		}, {
@@ -1426,8 +1410,7 @@ Some providers support URL encoding listings and where this is
 available this is more reliable when using control characters in file
 names. If this is set to unset (the default) then rclone will choose
 according to the provider setting what to apply, but you can override
-rclone's choice here.
-`,
+rclone's choice here.`,
 			Default:  fs.Tristate{},
 			Advanced: true,
 		}, {
@@ -1439,8 +1422,7 @@ rclone does if you know the bucket exists already.
 
 It can also be needed if the user you are using does not have bucket
 creation permissions. Before v1.52.0 this would have passed silently
-due to a bug.
-`,
+due to a bug.`,
 			Default:  false,
 			Advanced: true,
 		}, {
@@ -1472,8 +1454,7 @@ HEAD request.
 Setting this flag increases the chance for undetected upload failures,
 in particular an incorrect size, so it isn't recommended for normal
 operation. In practice the chance of an undetected upload failure is
-very small even with this flag.
-`,
+very small even with this flag.`,
 			Default:  false,
 			Advanced: true,
 		}, {
@@ -1521,9 +1502,7 @@ There is currently an unsolved issue with the s3 (specifically minio) backend
 and HTTP/2.  HTTP/2 is enabled by default for the s3 backend but can be
 disabled here.  When the issue is solved this flag will be removed.
 
-See: https://github.com/rclone/rclone/issues/4673, https://github.com/rclone/rclone/issues/3631
-
-`,
+See: https://github.com/rclone/rclone/issues/4673, https://github.com/rclone/rclone/issues/3631`,
 		}, {
 			Name: "download_url",
 			Help: `Custom endpoint for downloads.
@@ -2844,9 +2823,7 @@ if not.
             "Status": "OK",
             "Path": "test/file4.txt"
         }
-    ]
-
-`,
+    ]`,
 	Opts: map[string]string{
 		"priority":    "Priority of restore: Standard|Expedited|Bulk",
 		"lifetime":    "Lifetime of the active copy in days",
@@ -2884,9 +2861,7 @@ a bucket or with a bucket and path.
       ],
       "rclone-1000files": [],
       "rclone-dst": []
-    }
-
-`,
+    }`,
 }, {
 	Name:  "cleanup",
 	Short: "Remove unfinished multipart uploads.",
@@ -2899,8 +2874,7 @@ would do.
     rclone backend cleanup s3:bucket/path/to/object
     rclone backend cleanup -o max-age=7w s3:bucket/path/to/object
 
-Durations are parsed as per the rest of rclone, 2h, 7d, 7w etc.
-`,
+Durations are parsed as per the rest of rclone, 2h, 7d, 7w etc.`,
 	Opts: map[string]string{
 		"max-age": "Max age of upload to delete",
 	},
@@ -3664,7 +3638,7 @@ func (o *Object) Update(ctx context.Context, in io.Reader, src fs.ObjectInfo, op
 				if (multipart || o.fs.etagIsNotMD5) && !o.fs.opt.DisableChecksum {
 					// Set the md5sum as metadata on the object if
 					// - a multipart upload
-					// - the Etag is not an MD5, eg when using SSE/SSE-C
+					// - the Etag is not an MD5, e.g. when using SSE/SSE-C
 					// provided checksums aren't disabled
 					metadata[metaMD5Hash] = &md5sum
 				}

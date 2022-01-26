@@ -544,34 +544,29 @@ func NewFs(ctx context.Context, name, rootPath string, m configmap.Mapper) (fs.F
 		Path:  "cache/expire",
 		Fn:    f.httpExpireRemote,
 		Title: "Purge a remote from cache",
-		Help: `
-Purge a remote from the cache backend. Supports either a directory or a file.
+		Help: `Purge a remote from the cache backend. Supports either a directory or a file.
 Params:
   - remote = path to remote (required)
   - withData = true/false to delete cached data (chunks) as well (optional)
 
-Eg
+E.g.
 
     rclone rc cache/expire remote=path/to/sub/folder/
-    rclone rc cache/expire remote=/ withData=true 
-`,
+    rclone rc cache/expire remote=/ withData=true`,
 	})
 
 	rc.Add(rc.Call{
 		Path:  "cache/stats",
 		Fn:    f.httpStats,
 		Title: "Get cache stats",
-		Help: `
-Show statistics for the cache remote.
-`,
+		Help:  "Show statistics for the cache remote.",
 	})
 
 	rc.Add(rc.Call{
 		Path:  "cache/fetch",
 		Fn:    f.rcFetch,
 		Title: "Fetch file chunks",
-		Help: `
-Ensure the specified file chunks are cached on disk.
+		Help: `Ensure the specified file chunks are cached on disk.
 
 The chunks= parameter specifies the file chunks to check.
 It takes a comma separated list of array slice indices.
@@ -594,9 +589,7 @@ specify files to fetch, e.g.
     rclone rc cache/fetch chunks=0 file=hello file2=home/goodbye
 
 File names will automatically be encrypted when the a crypt remote
-is used on top of the cache.
-
-`,
+is used on top of the cache.`,
 	})
 
 	return f, fsErr

@@ -113,8 +113,7 @@ to an encrypted one. Cannot be used in combination with implicit FTP.`,
 If no connections have been returned to the connection pool in the time
 given, rclone will empty the connection pool.
 
-Set to 0 to keep connections indefinitely.
-`,
+Set to 0 to keep connections indefinitely.`,
 			Advanced: true,
 		}, {
 			Name:     "close_timeout",
@@ -145,8 +144,7 @@ Enabled by default. Use 0 to disable.`,
 			Default: false,
 			Help: `Allow asking for FTP password when needed.
 
-If this is set and no password is supplied then rclone will ask for a password
-`,
+If this is set and no password is supplied then rclone will ask for a password`,
 			Advanced: true,
 		}, {
 			Name:     config.ConfigEncoding,

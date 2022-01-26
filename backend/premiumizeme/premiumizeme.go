@@ -86,8 +86,7 @@ func init() {
 			Name: "api_key",
 			Help: `API Key.
 
-This is not normally used - use oauth instead.
-`,
+This is not normally used - use oauth instead.`,
 			Hide:    fs.OptionHideBoth,
 			Default: "",
 		}, {

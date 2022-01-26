@@ -119,8 +119,7 @@ func init() {
 
 This is normally set when rclone initially does the oauth connection,
 however you will need to set it by hand if you are using remote config
-with rclone authorize.
-`,
+with rclone authorize.`,
 			Default:  defaultHostname,
 			Advanced: true,
 			Examples: []fs.OptionExample{{

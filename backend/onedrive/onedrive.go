@@ -190,8 +190,7 @@ This flag checks for versions after file upload and setting
 modification time and removes all but the last version.
 
 **NB** Onedrive personal can't currently delete versions so don't use
-this flag there.
-`,
+this flag there.`,
 			Advanced: true,
 		}, {
 			Name:     "link_scope",
@@ -225,8 +224,7 @@ this flag there.
 			Default: "",
 			Help: `Set the password for links created by the link command.
 
-At the time of writing this only works with OneDrive personal paid accounts.
-`,
+At the time of writing this only works with OneDrive personal paid accounts.`,
 			Advanced: true,
 		}, {
 			Name:     config.ConfigEncoding,
@@ -467,8 +465,7 @@ func Config(ctx context.Context, name string, m configmap.Mapper, config fs.Conf
 	case "url":
 		return fs.ConfigInput("url_end", "config_site_url", `Site URL
 
-Example: "https://contoso.sharepoint.com/sites/mysite" or "mysite"
-`)
+Example: "https://contoso.sharepoint.com/sites/mysite" or "mysite"`)
 	case "url_end":
 		siteURL := config.Result
 		re := regexp.MustCompile(`https://.*\.sharepoint.com/sites/(.*)`)
