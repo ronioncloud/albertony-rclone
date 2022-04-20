@@ -47,6 +47,7 @@ const (
 	defaultDevice      = "Jotta"
 	defaultMountpoint  = "Archive"
 	rootURL            = "https://jfs.jottacloud.com/jfs/"
+	downURL            = "https://down.jottacloud.com/jfs/"
 	apiURL             = "https://api.jottacloud.com/"
 	baseURL            = "https://www.jottacloud.com/"
 	cachePrefix        = "rclone-jcmd5-"
@@ -107,6 +108,11 @@ func init() {
 		}, {
 			Name:     "no_versions",
 			Help:     "Avoid server side versioning by deleting files and recreating files instead of overwriting them.",
+			Default:  false,
+			Advanced: true,
+		}, {
+			Name:     "down_subdomain",
+			Help:     "Use alternative subdomain for downloads.",
 			Default:  false,
 			Advanced: true,
 		}, {
@@ -326,6 +332,7 @@ type Options struct {
 	TrashedOnly        bool                 `config:"trashed_only"`
 	HardDelete         bool                 `config:"hard_delete"`
 	NoVersions         bool                 `config:"no_versions"`
+	DownSubdomain      bool                 `config:"down_subdomain"`
 	UploadThreshold    fs.SizeSuffix        `config:"upload_resume_limit"`
 	Enc                encoder.MultiEncoder `config:"encoding"`
 }
@@ -339,6 +346,7 @@ type Fs struct {
 	features     *fs.Features
 	endpointURL  string
 	srv          *rest.Client
+	downSrv      *rest.Client
 	apiSrv       *rest.Client
 	pacer        *fs.Pacer
 	tokenRenewer *oauthutil.Renew // renew the token on expiry
@@ -766,12 +774,13 @@ func NewFs(ctx context.Context, name, root string, m configmap.Mapper) (fs.Fs, e
 	root = strings.Trim(root, "/")
 
 	f := &Fs{
-		name:   name,
-		root:   root,
-		opt:    *opt,
-		srv:    rest.NewClient(oAuthClient).SetRoot(rootURL),
-		apiSrv: rest.NewClient(oAuthClient).SetRoot(apiURL),
-		pacer:  fs.NewPacer(ctx, pacer.NewDefault(pacer.MinSleep(minSleep), pacer.MaxSleep(maxSleep), pacer.DecayConstant(decayConstant))),
+		name:    name,
+		root:    root,
+		opt:     *opt,
+		srv:     rest.NewClient(oAuthClient).SetRoot(rootURL),
+		downSrv: rest.NewClient(oAuthClient).SetRoot(downURL),
+		apiSrv:  rest.NewClient(oAuthClient).SetRoot(apiURL),
+		pacer:   fs.NewPacer(ctx, pacer.NewDefault(pacer.MinSleep(minSleep), pacer.MaxSleep(maxSleep), pacer.DecayConstant(decayConstant))),
 	}
 	f.features = (&fs.Features{
 		CaseInsensitive:         true,
@@ -780,6 +789,7 @@ func NewFs(ctx context.Context, name, root string, m configmap.Mapper) (fs.Fs, e
 		WriteMimeType:           false,
 	}).Fill(ctx, f)
 	f.srv.SetErrorHandler(errorHandler)
+	f.downSrv.SetErrorHandler(errorHandler)
 	if opt.TrashedOnly { // we cannot support showing Trashed Files when using ListR right now
 		f.features.ListR = nil
 	}
@@ -1612,7 +1622,11 @@ func (o *Object) Open(ctx context.Context, options ...fs.OpenOption) (in io.Read
 	opts.Parameters.Set("mode", "bin")
 
 	err = o.fs.pacer.Call(func() (bool, error) {
-		resp, err = o.fs.srv.Call(ctx, &opts)
+		if o.fs.opt.DownSubdomain {
+			resp, err = o.fs.downSrv.Call(ctx, &opts)
+		} else {
+			resp, err = o.fs.srv.Call(ctx, &opts)
+		}
 		return shouldRetry(ctx, resp, err)
 	})
 	if err != nil {
